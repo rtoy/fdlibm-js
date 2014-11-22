@@ -30,3 +30,9 @@ function _ConstructDouble(high, low)
     (new Uint32Array(buf))[0] = low;
     return new Float64Array(buf)[0];
 }
+
+// Relative error
+function relerr(actual, expected)
+{
+    return Math.abs(actual - expected) / expected;
+}
