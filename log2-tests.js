@@ -38,9 +38,28 @@ describe(
 describe(
     "Test integral powers of 2",
     function () {
-        it("log2(2^n) = n for n -1022 <= n <= 1022",
+        it("log2(2^n) = n for n -1074 <= n <= 1023",
            function () {
-               for (var n = -1022; n <= 1022; ++n) {
+               // Carefully construct the values for 2^k for -1074 <= k
+               // <= -1023.  Don't won't to depend on Math.pow to
+               // produce corectly rounded values.
+               var n = -1074;
+               // This loop covers n from -1074 to -1043
+               for (var lowbits = 1; lowbits <= 0x80000000;  lowbits *= 2) {
+                   var x = _ConstructDouble(0, lowbits);
+                   var y = log2(x);
+                   expect(y).toBe(y, n);
+                   n += 1;
+               }
+               // This loop covers n from -1042 to -1023
+               for (var hibits = 1; hibits <= 0x80000; hibits *= 2) {
+                   var x = _ConstructDouble(hibits, 0);
+                   var y = log2(x);
+                   expect(y).toBe(y, n);
+                   n += 1;
+               }
+               // The rest of the normal values of 2^n
+               for (var n = -1022; n <= 1023; ++n) {
                    var x = Math.pow(2, n);
                    var y = log2(x);
                    expect(y).toBe(n);
