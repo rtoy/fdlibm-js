@@ -70,6 +70,11 @@ describe(
 describe(
     "Test special values",
     function () {
+        // The expected values were computed in extended precision
+        // (fpprec = 64) via maxima and then rounded to float. I also
+        // compared the actual bits in the extended representation and
+        // the float result and verified that the rounded result is,
+        // in fact, correctly rounded.
         it("log2(sqrt(2)) = 1/2",
            function () {
                var x = Math.SQRT2;
@@ -85,6 +90,16 @@ describe(
                // Expected value isn't exactly -1/2 because Math.SQRT1_2
                // isn't exactly sqrt(1/2).
                expect(y).toBe(-0.4999999999999999e0);
+           });
+        it("log2(10) = 3.321928094887362",
+           function () {
+               var y = log2(10);
+               expect(y).toBe(3.321928094887362);
+           });
+        it("log2(100) = 6.643856189774724",
+           function () {
+               var y = log2(100);
+               expect(y).toBe(6.643856189774724);
            });
     });
                
