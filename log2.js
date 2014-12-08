@@ -77,6 +77,10 @@ function log2 (x)
 
     var k;
 
+    // console.log("n = " + n);
+    // console.log("j = " + j);
+    // console.log("ix = " + ix);
+
     if (j <= 0x3988e) {
         // |x| < sqrt(3/2)
         k = 0;
@@ -89,7 +93,9 @@ function log2 (x)
         ix -= 0x00100000;
     }
     
-    ax = _ConstructDouble(ix, lx);
+    ax = _ConstructDouble(ix, _DoubleLo(ax));
+
+    // console.log("ax = " + ax);
 
     // Compute ss = s_h + s_l = (x - 1)/(x+1) or (x - 1.5)/(x + 1.5)
     var u = ax - bp[k];
@@ -122,6 +128,7 @@ function log2 (x)
     z_l = cp_l * p_h + p_l * cp + dp_l[k];
     // log2(ax) = (ss+..)*2/(3*log2) = n + dp_h + z_h + z_l
     var t = n;
+
 //    t1 = (((z_h+z_l)+dp_h[k])+t);
 //    __LO(t1) = 0;
     var t1 = _ConstructDouble(_DoubleHi(((z_h + z_l) + dp_h[k]) + t), 0);
