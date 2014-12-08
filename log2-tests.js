@@ -75,7 +75,7 @@ describe(
         // compared the actual bits in the extended representation and
         // the float result and verified that the rounded result is,
         // in fact, correctly rounded.
-        it("log2(sqrt(2)) = 1/2",
+        it("log2(sqrt(2)) = 0.5000000000000001",
            function () {
                var x = Math.SQRT2;
                var y = log2(x);
@@ -83,7 +83,7 @@ describe(
                // isn't exactly sqrt(2).
                expect(y).toBe(0.5000000000000001e0);
            });
-        it("log2(1/sqrt(2)) = -1/2",
+        it("log2(1/sqrt(2)) = -0.4999999999999999",
            function () {
                var x = Math.SQRT1_2;
                var y = log2(x);
@@ -106,7 +106,7 @@ describe(
 describe(
     "Test relationships",
     function () {
-        it("log2(1/x) + log2(x) = 0, x = 1.1^k, 0 <= k < 1000",
+        it("|log2(1/x) + log2(x)| <= 1.5e-14, x = 1.1^k, 0 <= k < 1000",
            function () {
                var x = 1;
                for (var k = 0; k < 1000; ++k) {
@@ -115,7 +115,7 @@ describe(
                    x *= 1.1;
                }
            });
-        it("log2(x) ~= log(x)/log(2)",
+        it("|log2(x) - log(x)/log(2)| < 1e-15, x = 1.1^k, 0 <= k < 1000 ",
            function () {
                var x = Math.pow(2, -100);
                for (var k = 0; k < 1000; ++k) {
