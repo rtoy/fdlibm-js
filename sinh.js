@@ -56,8 +56,8 @@ function sinh (x) {
     }
 
     // |x| in [log(maxdouble), overflowthreshold]
-    // overflowthreshold = 710.4758600739426e0
-    if (ax <= _ConstructDouble(0x408633ce, 0x8fb9f872)) {
+    // overflowthreshold = 710.4758600739439
+    if (ax <= _ConstructDouble(0x408633ce, 0x8fb9f87d)) {
         var w = exp(0.5*ax);
         var t = h * w;
         return t * w;
@@ -65,5 +65,5 @@ function sinh (x) {
 
     // |x| > overflowthreshold, sinh(x) overflows. Return infinity of
     // the appropriate sign.
-    return x*1e300;
+    return x*1e307;
 }
