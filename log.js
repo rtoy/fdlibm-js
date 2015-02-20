@@ -73,7 +73,7 @@ function log(x) {
     var k = 0;
 
     if (hx < 0x00100000) {			// x < 2**-1022 
-        if (((hx&0x7fffffff)|lx)==0) 
+        if (((hx & 0x7fffffff) | lx) == 0) 
             return -Infinity;		// log(+-0)=-inf
         if (hx<0) return NaN;	// log(-#) = NaN
         k -= 54;
@@ -81,61 +81,65 @@ function log(x) {
         hx = _DoubleHi(x);		// high word of x
     } 
 
+    // x is infinity or NaN, so return infinity or NaN, respectively.
     if (hx >= 0x7ff00000)
         return x+x;
 
-    k += (hx>>20)-1023;
+    k += (hx >> 20) - 1023;
     hx &= 0x000fffff;
-    var i = (hx+0x95f64)&0x100000;
+    var i = (hx + 0x95f64) & 0x100000;
     //__HI(x) = hx|(i^0x3ff00000);
 
     // normalize x or x/2
-    x = _ConstructDouble(hx|(i^0x3ff00000), lx);
-    k += (i>>20);
-    var f = x-1.0;
+    x = _ConstructDouble(hx|(i ^ 0x3ff00000), lx);
+    k += (i >> 20);
+    var f = x - 1.0;
     //console.log("x = " + x + ", k = " + k + ", f = " + f);
     var R;
-    if((0x000fffff&(2+hx))<3) {	// |f| < 2**-20
+
+    // Maybe replace this test with Math.abs(f) < 2^-20?
+    if ((0x000fffff & (2+hx)) < 3) {	// |f| < 2**-20
         // I think the only way f = 0 is if x is a power of 2.
         if (f==0) {
             if (k==0)
                 return 0;
             else {
                 var dk = k;
-                return dk*ln2_hi+dk*ln2_lo;
+                return dk * ln2_hi + dk * ln2_lo;
             }
         }
-        R = f*f*(0.5-0.33333333333333333*f);
-        if (k==0)
-            return f-R;
+        R = f * f * (0.5 - 0.33333333333333333 * f);
+        if (k == 0)
+            return f - R;
         else {
-            var dk=k;
-            return dk*ln2_hi-((R-dk*ln2_lo)-f);
+            var dk = k;
+            return dk * ln2_hi - ((R - dk * ln2_lo) - f);
         }
     }
-    var s = f/(2.0+f); 
+
+    var s = f / (2.0 + f); 
     var dk = k;
-    var z = s*s;
-    i = hx-0x6147a;
-    var w = z*z;
-    var j = 0x6b851-hx;
+    var z = s * s;
+    i = hx - 0x6147a;
+    var w = z * z;
+    var j = 0x6b851 - hx;
     //console.log("hx = " + hx + ", i = " + i + ", j = " + j);
-    var t1= w*(Lg2+w*(Lg4+w*Lg6)); 
-    var t2= z*(Lg1+w*(Lg3+w*(Lg5+w*Lg7))); 
+    var t1= w * (Lg2 + w * (Lg4 + w * Lg6)); 
+    var t2= z * (Lg1 + w * (Lg3 + w * (Lg5 + w * Lg7))); 
     i |= j;
-    R = t2+t1;
-    if(i>0) {
+    R = t2 + t1;
+    if (i > 0) {
         //console.log("i = " + i + ", k = " + k);
-        var hfsq=0.5*f*f;
-        if(k==0)
-            return f-(hfsq-s*(hfsq+R));
+        var hfsq = 0.5 * f * f;
+        if (k == 0)
+            return f - (hfsq - s * (hfsq + R));
         else
-            return dk*ln2_hi-((hfsq-(s*(hfsq+R)+dk*ln2_lo))-f);
+            return dk * ln2_hi - ((hfsq - (s * (hfsq + R) + dk * ln2_lo)) - f);
     } else {
         //console.log("i = " + i + ", k = " + k);
-        if(k==0)
-            return f-s*(f-R);
+        if (k == 0)
+            return f - s * (f - R);
         else
-            return dk*ln2_hi-((s*(f-R)-dk*ln2_lo)-f);
+            return dk * ln2_hi - ((s * (f - R) - dk * ln2_lo) - f);
     }
 }
