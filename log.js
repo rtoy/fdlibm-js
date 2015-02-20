@@ -120,14 +120,21 @@ function log(x) {
     var s = f / (2.0 + f); 
     var dk = k;
     var z = s * s;
+
+    // I think this computation of i, j is figuring out if f is not
+    // too large.
     i = hx - 0x6147a;
-    var w = z * z;
     var j = 0x6b851 - hx;
+
+    var w = z * z;
     //console.log("hx = " + hx + ", i = " + i + ", j = " + j);
     var t1= w * (Lg2 + w * (Lg4 + w * Lg6)); 
     var t2= z * (Lg1 + w * (Lg3 + w * (Lg5 + w * Lg7))); 
+
     i |= j;
+
     R = t2 + t1;
+
     if (i > 0) {
         // This appears to be handling the "better accuracy" case
         // given at the end of item 2, in the Method section above.
