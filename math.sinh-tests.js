@@ -130,3 +130,24 @@ describe(
                expect(y).toBe(-Infinity);
            });
     });
+
+describe(
+    "Test basic relationships",
+    function () {
+        it("Math.sinh(x) + Math.sinh(-x) = 0, x = 1.01^k, 0 <= k < 500",
+           function () {
+               for (var k = 0; k < 500; ++k) {
+                   var x = Math.pow(1.01, k)
+                   var y = Math.sinh(x) + Math.sinh(-x);
+                   expect(y).toBe(0);
+               }
+           });
+        it("Math.sinh(x) + Math.sinh(-x) = 0, x = 2^(-k), 0 <= k < 1000",
+           function () {
+               for (var k = 0; k < 1000; ++k) {
+                   var x = Math.pow(2, -k);
+                   var y = Math.sinh(x) + Math.sinh(-x);
+                   expect(y).toBe(0);
+               }
+           });
+    });
