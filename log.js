@@ -129,6 +129,9 @@ function log(x) {
     i |= j;
     R = t2 + t1;
     if (i > 0) {
+        // This appears to be handling the "better accuracy" case
+        // given at the end of item 2, in the Method section above.
+        
         //console.log("i = " + i + ", k = " + k);
         var hfsq = 0.5 * f * f;
         if (k == 0)
@@ -136,6 +139,9 @@ function log(x) {
         else
             return dk * ln2_hi - ((hfsq - (s * (hfsq + R) + dk * ln2_lo)) - f);
     } else {
+        // This looks like the "f is not too large" case given at the
+        // end of item 2, in the Method section above.
+        
         //console.log("i = " + i + ", k = " + k);
         if (k == 0)
             return f - s * (f - R);
