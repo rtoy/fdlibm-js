@@ -66,7 +66,7 @@ var Lg6 = 1.531383769920937332e-01;	// 3FC39A09 D078C69F
 var Lg7 = 1.479819860511658591e-01;     // 3FC2F112 DF3E5244
 
 function log(x) {
-    console.log("arg = " + x);
+    //console.log("arg = " + x);
     var hx = _DoubleHi(x);
     var lx = _DoubleLo(x);
 
@@ -93,7 +93,7 @@ function log(x) {
     x = _ConstructDouble(hx|(i^0x3ff00000), lx);
     k += (i>>20);
     var f = x-1.0;
-    console.log("x = " + x + ", k = " + k + ", f = " + f);
+    //console.log("x = " + x + ", k = " + k + ", f = " + f);
     var R;
     if((0x000fffff&(2+hx))<3) {	// |f| < 2**-20
         // I think the only way f = 0 is if x is a power of 2.
@@ -119,20 +119,20 @@ function log(x) {
     i = hx-0x6147a;
     var w = z*z;
     var j = 0x6b851-hx;
-    console.log("hx = " + hx + ", i = " + i + ", j = " + j);
+    //console.log("hx = " + hx + ", i = " + i + ", j = " + j);
     var t1= w*(Lg2+w*(Lg4+w*Lg6)); 
     var t2= z*(Lg1+w*(Lg3+w*(Lg5+w*Lg7))); 
     i |= j;
     R = t2+t1;
     if(i>0) {
-        console.log("i = " + i + ", k = " + k);
+        //console.log("i = " + i + ", k = " + k);
         var hfsq=0.5*f*f;
         if(k==0)
             return f-(hfsq-s*(hfsq+R));
         else
             return dk*ln2_hi-((hfsq-(s*(hfsq+R)+dk*ln2_lo))-f);
     } else {
-        console.log("i = " + i + ", k = " + k);
+        //console.log("i = " + i + ", k = " + k);
         if(k==0)
             return f-s*(f-R);
         else
