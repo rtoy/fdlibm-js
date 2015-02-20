@@ -78,9 +78,9 @@ describe(
            // Test branch f = 0, k = 2
            function () {
                var y = log(4);
-               expect(y).toBe(0);
+               expect(y).toBe(1.3862943611198906);
            });
-        it("log(1.3799991607666016) = 0.3220828910287846; main path, i > 0 k = 0",
+        it("log(1.3799991607666016) = 0.3220828910287846; main path, i > 0, k = 0",
            // Tests main path, i > 0, k = 0
            function () {
                var x = _ConstructDouble(0x3ff00000 + 0x6147a);
@@ -94,11 +94,92 @@ describe(
                var y = log(x);
                expect(y).toBe(0.35065625373947773);
            });
+        it("log(0.6899995803833008) = -0.3710642895311607; main path, i > 0 k = -1",
+           // Tests main path, i > 0, k = -1
+           function () {
+               var x = _ConstructDouble(0x3fe00000 + 0x6147a);
+               var y = log(x);
+               expect(y).toBe(-0.3710642895311607);
+           });
         it("log(1.3799982070922852) = 0.3220821999597803; main path i < 0, k = 0",
            // Tests main path, i < 0, k = 0
            function () {
                var x = _ConstructDouble(0x3ff00000 + 0x61479);
                var y = log(x);
                expect(y).toBe(0.3220821999597803);
+           });
+        it("log(2.7599964141845703) = 1.0152293805197257; main path i < 0, k = 1",
+           // Tests main path, i < 0, k = 1
+           function () {
+               var x = _ConstructDouble(0x40000000 + 0x61479);
+               var y = log(x);
+               expect(y).toBe(1.0152293805197257);
+           });
+        it("log(0.6899991035461426) = -0.37106498060016496; main path i < 0, k = -1",
+           // Tests main path, i < 0, k = -1
+           function () {
+               var x = _ConstructDouble(0x3fe00000 + 0x61479);
+               var y = log(x);
+               expect(y).toBe(-0.37106498060016496);
+           });
+    });
+
+describe(
+    "Test relationships",
+    function () {
+        it("|log(x) + log(1/x)| < 1.77635684e-15, x = 1.2^k, 0 <= k < 2000",
+           function () {
+               var x = 1;
+               var maxValue = -1;
+               for (var k = 0; k < 2000; ++k) {
+                   var y = Math.abs(log(x) + log(1/x));
+                   maxValue = Math.max(maxValue, y);
+                   x *= 1.4;
+               }
+               expect(maxValue).toBeLessThan(1.77635684e-15);
+           });
+        it("|Math.exp(log(x)) - x|/x < 1.2908444e-13, x = 1.4^k, 0 <= k < 2000",
+           function () {
+               var x = 1;
+               var maxRelativeError = 0;
+               for (var k = 0; k < 2000; ++k) {
+                   var y = Math.abs(Math.exp(log(x)) - x) / x;
+                   maxRelativeError = Math.max(maxRelativeError, y);
+                   x *= 1.4;
+               }
+               expect(maxRelativeError).toBeLessThan(1.2908444e-13);
+           });
+        it("|Math.exp(log(x)) - x|/x < 1.266577e-13, x = 1.4^(-k), 0 <= k < 2000",
+           function () {
+               var x = 1;
+               var maxRelativeError = 0;
+               for (var k = 0; k < 2000; ++k) {
+                   var y = Math.abs(Math.exp(log(x)) - x) / x;
+                   maxRelativeError = Math.max(maxRelativeError, y);
+                   x /= 1.4;
+               }
+               expect(maxRelativeError).toBeLessThan(1.266577e-13);
+           });
+        it("|exp(log(x)) - x|/x < 5.6766649e-14, x = 1.4^k, 0 <= k < 2000",
+           function () {
+               var x = 1;
+               var maxRelativeError = 0;
+               for (var k = 0; k < 2000; ++k) {
+                   var y = Math.abs(exp(log(x)) - x) / x;
+                   maxRelativeError = Math.max(maxRelativeError, y);
+                   x *= 1.4;
+               }
+               expect(maxRelativeError).toBeLessThan(5.6766649e-14);
+           });
+        it("|exp(log(x)) - x|/x < 5.68410245e-14, x = 1.4^(-k), 0 <= k < 2000",
+           function () {
+               var x = 1;
+               var maxRelativeError = 0;
+               for (var k = 0; k < 2000; ++k) {
+                   var y = Math.abs(exp(log(x)) - x) / x;
+                   maxRelativeError = Math.max(maxRelativeError, y);
+                   x /= 1.4;
+               }
+               expect(maxRelativeError).toBeLessThan(5.68410245e-14);
            });
     });
