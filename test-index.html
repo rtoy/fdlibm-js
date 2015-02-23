@@ -16,9 +16,15 @@
   <body>
     <h2>Random implementations of special functions for Javascript</h2>
 
-    <p>Here is a collection of various tests for special functions. There is also a set of tests
-    using the builtin Math implementations for comparing between the fdlibm port and the builtin
-    version.
+    <p>
+      Here is a collection of various tests for special functions. There is also a set of tests
+      using the builtin Math implementations for comparing between the fdlibm port and the builtin
+      version.
+    </p>
+    <p>
+      It's likely that no browser passes all of the Javascript tests.  Many of the expected results
+      use an expected value that is produced by fdlibm, which might differ from the true correctly
+      rounded result by (less than) 1 ulp.
     </p>
 
     <table>
