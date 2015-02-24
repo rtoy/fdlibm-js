@@ -142,6 +142,36 @@ var one = 1.0;
 var two24 = Math.pow(2, 24);
 var twon24 = Math.pow(2, -24);
 
+// Compute x*2^n using exponent manipulation instead of exponentiation
+// or multiplication.
+function scalbn(x, n)
+{
+    int  k,hx,lx;
+    hx = _DoubleHi(x);
+    lx = _DoubleLo(x);
+    k = (hx&0x7ff00000)>>20;		/* extract exponent */
+    if (k==0) {				/* 0 or subnormal x */
+        if ((lx|(hx&0x7fffffff))==0) return x; /* +-0 */
+        x *= two54; 
+        hx = _DoubleHi(x);
+        k = ((hx&0x7ff00000)>>20) - 54; 
+        if (n< -50000) return tiny*x; 	/*underflow*/
+    }
+    if (k==0x7ff) return x+x;		/* NaN or Inf */
+    k = k+n; 
+    if (k >  0x7fe) return huge*copysign(huge,x); /* overflow  */
+    if (k > 0) 				/* normal result */
+        {_DoubleHi(x) = (hx&0x800fffff)|(k<<20); return x;}
+    if (k <= -54)
+        if (n > 50000) 	/* in case integer overflow in n+k */
+            return huge*copysign(huge,x);	/*overflow*/
+        else return tiny*copysign(tiny,x); 	/*underflow*/
+    k += 54;				/* subnormal result */
+    //__HI(x) = (hx&0x800fffff)|(k<<20);
+    x = _ConstructDouble((hx&0x800fffff)|(k<<20), _DoubleLo(x));
+    return x*twom54;
+}
+
 function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
 {
     /* initialize jk*/
@@ -157,11 +187,13 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
     /* set up f[0] to f[jx+jk] where f[jx+jk] = ipio2[jv+jk] */
     j = jv - jx;
     m = jx + jk;
-    for (i = 0; i <= m; i++, j++) f[i] = (j < 0) ? zero : (double) ipio2[j];
+    for (i = 0; i <= m; i++, j++)
+        f[i] = (j < 0) ? zero : (double) ipio2[j];
 
     /* compute q[0],q[1],...q[jk] */
     for (i = 0; i <= jk; i++) {
-        for (j = 0, fw = 0.0; j <= jx; j++) fw += x[j] * f[jx + i - j];
+        for (j = 0, fw = 0.0; j <= jx; j++)
+            fw += x[j] * f[jx + i - j];
         q[i] = fw;
     }
 
@@ -176,7 +208,7 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
 
     /* compute n */
     z = scalbn(z, q0); /* actual value of z */
-    z -= 8.0 * floor(z * 0.125); /* trim off integer >= 8 */
+    z -= 8.0 * Math.floor(z * 0.125); /* trim off integer >= 8 */
     n = (int) z;
     z -= (double) n;
     ih = 0;
@@ -185,8 +217,11 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
         n += i;
         iq[jz - 1] -= i << (24 - q0);
         ih = iq[jz - 1] >> (23 - q0);
-    } else if (q0 == 0) ih = iq[jz - 1] >> 23;
-    else if (z >= 0.5) ih = 2;
+    } else if (q0 == 0) {
+        ih = iq[jz - 1] >> 23;
+    } else if (z >= 0.5) {
+        ih = 2;
+    }
 
     if (ih > 0) { /* q > 0.5 */
         n += 1;
@@ -198,7 +233,9 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
                     carry = 1;
                     iq[i] = 0x1000000 - j;
                 }
-            } else iq[i] = 0xffffff - j;
+            } else {
+                iq[i] = 0xffffff - j;
+            }
         }
         if (q0 > 0) { /* rare case: chance is 1 in 12 */
             switch (q0) {
@@ -212,20 +249,24 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
         }
         if (ih == 2) {
             z = one - z;
-            if (carry != 0) z -= scalbn(one, q0);
+            if (carry != 0)
+                z -= scalbn(one, q0);
         }
     }
 
     /* check if recomputation is needed */
     if (z == zero) {
         j = 0;
-        for (i = jz - 1; i >= jk; i--) j |= iq[i];
+        for (i = jz - 1; i >= jk; i--)
+            j |= iq[i];
         if (j == 0) { /* need recomputation */
-            for (k = 1; iq[jk - k] == 0; k++); /* k = no. of terms needed */
+            for (k = 1; iq[jk - k] == 0; k++)
+                ; /* k = no. of terms needed */
 
             for (i = jz + 1; i <= jz + k; i++) { /* add q[jz+1] to q[jz+k] */
                 f[jx + i] = (double) ipio2[jv + i];
-                for (j = 0, fw = 0.0; j <= jx; j++) fw += x[j] * f[jx + i - j];
+                for (j = 0, fw = 0.0; j <= jx; j++)
+                    fw += x[j] * f[jx + i - j];
                 q[i] = fw;
             }
             jz += k;
@@ -261,7 +302,8 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
 
     /* compute PIo2[0,...,jp]*q[jz,...,0] */
     for (i = jz; i >= 0; i--) {
-        for (fw = 0.0, k = 0; k <= jp && k <= jz - i; k++) fw += PIo2[k] * q[i + k];
+        for (fw = 0.0, k = 0; k <= jp && k <= jz - i; k++)
+            fw += PIo2[k] * q[i + k];
         fq[jz - i] = fw;
     }
 
@@ -269,16 +311,19 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
     switch (prec) {
       case 0:
           fw = 0.0;
-          for (i = jz; i >= 0; i--) fw += fq[i];
+          for (i = jz; i >= 0; i--)
+              fw += fq[i];
           y[0] = (ih == 0) ? fw : -fw;
           break;
       case 1:
       case 2:
           fw = 0.0;
-          for (i = jz; i >= 0; i--) fw += fq[i];
+          for (i = jz; i >= 0; i--)
+              fw += fq[i];
           y[0] = (ih == 0) ? fw : -fw;
           fw = fq[0] - fw;
-          for (i = 1; i <= jz; i++) fw += fq[i];
+          for (i = 1; i <= jz; i++)
+              fw += fq[i];
           y[1] = (ih == 0) ? fw : -fw;
           break;
       case 3:
