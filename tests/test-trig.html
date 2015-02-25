@@ -1,26 +1,34 @@
 <!DOCTYPE HTML>
 <html>
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>fdlibm sin/cos/tan in JS Tests</title>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+    <title>fdlibm sin/cos/tan in JS Tests</title>
 
-  <link rel="shortcut icon" type="image/png" href="../lib/jasmine-2.0.0/jasmine_favicon.png">
-  <link rel="stylesheet" type="text/css" href="../lib/jasmine-2.0.0/jasmine.css">
+    <link rel="shortcut icon" type="image/png" href="../lib/jasmine-2.0.0/jasmine_favicon.png"></link>
+    <link rel="stylesheet" type="text/css" href="../lib/jasmine-2.0.0/jasmine.css"></link>
 
-  <script type="text/javascript" src="../lib/jasmine-2.0.0/jasmine.js"></script>
-  <script type="text/javascript" src="../lib/jasmine-2.0.0/jasmine-html.js"></script>
-  <script type="text/javascript" src="../lib/jasmine-2.0.0/boot.js"></script>
+    <script type="text/javascript" src="../lib/jasmine-2.0.0/jasmine.js"></script>
+    <script type="text/javascript" src="../lib/jasmine-2.0.0/jasmine-html.js"></script>
+    <script type="text/javascript" src="../lib/jasmine-2.0.0/boot.js"></script>
 
-  <!-- include source files here... -->
-  <script type="text/javascript" src="../fdlibm/fdlibm-util.js"></script>
-  <script type="text/javascript" src="../fdlibm/kernel-trig.js"></script>
-  <script type="text/javascript" src="../fdlibm/payne-hanek.js"></script>
-  <script type="text/javascript" src="../fdlibm/scalbn.js"></script>
+    <!-- include source files here... -->
+    <script type="test/javascript" src="../jasmine-blanket.js"></script>
+    <script type="test/javascript"
+      src="../blanket.min.js"
+      data-cover-flags="debug"
+      data-cover-adapter="../jasmine-blanket.js"
+      data-cover-modulepattern="\.\/(.*?)\/"
+      data-cover-only="['../fdlibm/kernel.trig.js', '../fdlibm/payne-hanek.js', '../fdlibm/scalbn.js']">
+    </script>
+    <script type="text/javascript" src="../fdlibm/fdlibm-util.js"></script>
+    <script type="text/javascript" src="../fdlibm/kernel-trig.js" data-cover></script>
+    <script type="text/javascript" src="../fdlibm/payne-hanek.js" data-cover></script>
+    <script type="text/javascript" src="../fdlibm/scalbn.js" data-cover></script>
 
-  <!-- include spec files here... -->
-  <script type="text/javascript" src="trig-tests.js"></script>
+    <!-- include spec files here... -->
+    <script type="text/javascript" src="trig-tests.js"></script>
 
-</head>
+  </head>
 
 <body>
 </body>
