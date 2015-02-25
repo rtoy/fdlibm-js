@@ -791,29 +791,29 @@ describe(
 describe(
     "Test Payne-Hanek reduction",
     function () {
-	it("2^120",
+	it("2^120 mod pi/2 = 6, -0.3874407610553695e0, -9.20673926649024e-18 ",
 	   function () {
 	       var x = Math.pow(2,120);
 	       var y = ieee754_rem_pio2(x);
-	       // expect(y[0]).toBe(6);
-	       // expect(y[1]).toBe(-0.3874407610553695e0);
-	       // expect(y[0]).toBe(-9.20673926649024e-18);
+	       expect(y[0]).toBe(6);
+	       expect(y[1]).toBe(-0.3874407610553695e0);
+	       expect(y[2]).toBe(-9.20673926649024e-18);
 	   });
-	it("-2^120",
+	it("-2^120 mod pi/2 = -6, 0.3874407610553695e0, 9.20673926649024e-18",
 	   function () {
 	       var x = -Math.pow(2,120);
 	       var y = ieee754_rem_pio2(x);
-	       // expect(y[0]).toBe(-6);
-	       // expect(y[1]).toBe(0.3874407610553695e0);
-	       // expect(y[0]).toBe(9.20673926649024e-18);
+	       expect(y[0]).toBe(-6);
+	       expect(y[1]).toBe(0.3874407610553695e0);
+	       expect(y[2]).toBe(9.20673926649024e-18);
 	   });
-	it("2^120*pi",
+	it("2^120*pi mod pi/2 = 5, 0.3154834904134516e0, -2.35972819793514e-17",
 	   function () {
 	       var x = Math.PI*Math.pow(2,120);
 	       var y = ieee754_rem_pio2(x);
-	       // expect(y[0]).toBe(5);
-	       // expect(y[1]).toBe(0.3154834904134516e0);
-	       // expect(y[0]).toBe(-2.35972819793514e-17);
+	       expect(y[0]).toBe(5);
+	       expect(y[1]).toBe(0.3154834904134516e0);
+	       expect(y[2]).toBe(-2.35972819793514e-17);
 	   });
     });
 
