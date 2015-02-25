@@ -125,8 +125,8 @@
 // to produce the hexadecimal values shown.
 //
 
-var init_jk[] = {2,3,4,6}; // initial value for jk
-var PIo2[] = {
+var init_jk = [2,3,4,6]; // initial value for jk
+var PIo2 = [
   1.57079625129699707031e+00, // 0x3FF921FB, 0x40000000
   7.54978941586159635335e-08, // 0x3E74442D, 0x00000000
   5.39030252995776476554e-15, // 0x3CF84698, 0x80000000
@@ -135,7 +135,7 @@ var PIo2[] = {
   1.22933308981111328932e-36, // 0x387A2520, 0x40000000
   2.73370053816464559624e-44, // 0x36E38222, 0x80000000
   2.16741683877804819444e-51, // 0x3569F31D, 0x00000000
-};
+];
 
 var zero = 0.0;
 var one = 1.0;
@@ -146,7 +146,7 @@ var twon24 = Math.pow(2, -24);
 // or multiplication.
 function scalbn(x, n)
 {
-    int  k,hx,lx;
+    var  k,hx,lx;
     hx = _DoubleHi(x);
     lx = _DoubleLo(x);
     k = (hx&0x7ff00000)>>20;		/* extract exponent */
@@ -160,8 +160,11 @@ function scalbn(x, n)
     if (k==0x7ff) return x+x;		/* NaN or Inf */
     k = k+n; 
     if (k >  0x7fe) return huge*copysign(huge,x); /* overflow  */
-    if (k > 0) 				/* normal result */
-        {_DoubleHi(x) = (hx&0x800fffff)|(k<<20); return x;}
+    if (k > 0) { 				/* normal result */
+        //_DoubleHi(x) = (hx&0x800fffff)|(k<<20);
+        x = _ConstructDouble((hx&0x800fffff)|(k<<20), _DoubleLo(x));
+        return x;
+    }
     if (k <= -54)
         if (n > 50000) 	/* in case integer overflow in n+k */
             return huge*copysign(huge,x);	/*overflow*/
@@ -174,22 +177,40 @@ function scalbn(x, n)
 
 function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
 {
+    var jz,jx,jv,jp,jk,carry,n;
+    var iq = Array(20);
+    var i,j,k,m,q0,ih;
+    var z,fw;
+    var f = Array(20);
+    var fq = Array(20);
+    var q = Array(20);
+
+    console.log("P-H: x = " + x);
+    console.log("e0 = " + e0);
+    console.log("nx = " + nx);
+    console.log("prec = " + prec);
+    //console.log("ipio2 = " + ipio2);
     /* initialize jk*/
     jk = init_jk[prec];
     jp = jk;
 
     /* determine jx,jv,q0, note that 3>q0 */
     jx = nx - 1;
-    jv = (e0 - 3) / 24;
-    if (jv < 0) jv = 0;
+    jv = Math.floor((e0 - 3) / 24);
+    console.log("jv = " + jv);
+    if (jv < 0)
+        jv = 0;
     q0 = e0 - 24 * (jv + 1);
 
     /* set up f[0] to f[jx+jk] where f[jx+jk] = ipio2[jv+jk] */
     j = jv - jx;
     m = jx + jk;
+    console.log("Setup f: j, m = " + j + ", " + m);
     for (i = 0; i <= m; i++, j++)
-        f[i] = (j < 0) ? zero : (double) ipio2[j];
-
+        f[i] = (j < 0) ? zero : ipio2[j];
+    
+    console.log("Post setup f: j, m = " + j + ", " + m);
+    console.log(" f = " + f);
     /* compute q[0],q[1],...q[jk] */
     for (i = 0; i <= jk; i++) {
         for (j = 0, fw = 0.0; j <= jx; j++)
@@ -197,81 +218,92 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
         q[i] = fw;
     }
 
+    console.log("f = " + f);
+    console.log("q = " + q);
+
     jz = jk;
+    var doRecompute = true;
   recompute:
-    /* distill q[] into iq[] reversingly */
-    for (i = 0, j = jz, z = q[jz]; j > 0; i++, j--) {
-        fw = (double)((int)(twon24 * z));
-        iq[i] = (int)(z - two24 * fw);
-        z = q[j - 1] + fw;
-    }
+    while (doRecompute) {
+        /* distill q[] into iq[] reversingly */
+        for (i = 0, j = jz, z = q[jz]; j > 0; i++, j--) {
+            //fw = (double)((int)(twon24 * z));
+            //iq[i] = (int)(z - two24 * fw);
+            fw = Math.floor(twon24 * z);
+            iq[i] = Math.floor(z - two24 * fw);
+            z = q[j - 1] + fw;
+        }
 
-    /* compute n */
-    z = scalbn(z, q0); /* actual value of z */
-    z -= 8.0 * Math.floor(z * 0.125); /* trim off integer >= 8 */
-    n = (int) z;
-    z -= (double) n;
-    ih = 0;
-    if (q0 > 0) { /* need iq[jz-1] to determine n */
-        i = (iq[jz - 1] >> (24 - q0));
-        n += i;
-        iq[jz - 1] -= i << (24 - q0);
-        ih = iq[jz - 1] >> (23 - q0);
-    } else if (q0 == 0) {
-        ih = iq[jz - 1] >> 23;
-    } else if (z >= 0.5) {
-        ih = 2;
-    }
+        /* compute n */
+        z = scalbn(z, q0); /* actual value of z */
+        z -= 8.0 * Math.floor(z * 0.125); /* trim off integer >= 8 */
+        //n = (int) z;
+        n = Math.floor(z);
+        z -= n;
+        ih = 0;
+        if (q0 > 0) { /* need iq[jz-1] to determine n */
+            i = (iq[jz - 1] >> (24 - q0));
+            n += i;
+            iq[jz - 1] -= i << (24 - q0);
+            ih = iq[jz - 1] >> (23 - q0);
+        } else if (q0 == 0) {
+            ih = iq[jz - 1] >> 23;
+        } else if (z >= 0.5) {
+            ih = 2;
+        }
 
-    if (ih > 0) { /* q > 0.5 */
-        n += 1;
-        carry = 0;
-        for (i = 0; i < jz; i++) { /* compute 1-q */
-            j = iq[i];
-            if (carry == 0) {
-                if (j != 0) {
-                    carry = 1;
-                    iq[i] = 0x1000000 - j;
+        if (ih > 0) { /* q > 0.5 */
+            n += 1;
+            carry = 0;
+            for (i = 0; i < jz; i++) { /* compute 1-q */
+                j = iq[i];
+                if (carry == 0) {
+                    if (j != 0) {
+                        carry = 1;
+                        iq[i] = 0x1000000 - j;
+                    }
+                } else {
+                    iq[i] = 0xffffff - j;
                 }
-            } else {
-                iq[i] = 0xffffff - j;
+            }
+            if (q0 > 0) { /* rare case: chance is 1 in 12 */
+                switch (q0) {
+                  case 1:
+                      iq[jz - 1] &= 0x7fffff;
+                      break;
+                  case 2:
+                      iq[jz - 1] &= 0x3fffff;
+                      break;
+                }
+            }
+            if (ih == 2) {
+                z = one - z;
+                if (carry != 0)
+                    z -= scalbn(one, q0);
             }
         }
-        if (q0 > 0) { /* rare case: chance is 1 in 12 */
-            switch (q0) {
-              case 1:
-                  iq[jz - 1] &= 0x7fffff;
-                  break;
-              case 2:
-                  iq[jz - 1] &= 0x3fffff;
-                  break;
-            }
-        }
-        if (ih == 2) {
-            z = one - z;
-            if (carry != 0)
-                z -= scalbn(one, q0);
-        }
-    }
 
-    /* check if recomputation is needed */
-    if (z == zero) {
-        j = 0;
-        for (i = jz - 1; i >= jk; i--)
-            j |= iq[i];
-        if (j == 0) { /* need recomputation */
-            for (k = 1; iq[jk - k] == 0; k++)
-                ; /* k = no. of terms needed */
+        /* check if recomputation is needed */
+        if (z == zero) {
+            j = 0;
+            for (i = jz - 1; i >= jk; i--)
+                j |= iq[i];
+            if (j == 0) { /* need recomputation */
+                for (k = 1; iq[jk - k] == 0; k++)
+                    ; /* k = no. of terms needed */
 
-            for (i = jz + 1; i <= jz + k; i++) { /* add q[jz+1] to q[jz+k] */
-                f[jx + i] = (double) ipio2[jv + i];
-                for (j = 0, fw = 0.0; j <= jx; j++)
-                    fw += x[j] * f[jx + i - j];
-                q[i] = fw;
+                for (i = jz + 1; i <= jz + k; i++) { /* add q[jz+1] to q[jz+k] */
+                    f[jx + i] = ipio2[jv + i];
+                    for (j = 0, fw = 0.0; j <= jx; j++)
+                        fw += x[j] * f[jx + i - j];
+                    q[i] = fw;
+                }
+                jz += k;
+                console.log("Doing recomputation!  jz = " + jz);
+                continue recompute;
             }
-            jz += k;
-            goto recompute;
         }
+        doRecompute = false;
     }
 
     /* chop off zero terms */
@@ -285,18 +317,24 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
     } else { /* break z into 24-bit if necessary */
         z = scalbn(z, -q0);
         if (z >= two24) {
-            fw = (double)((int)(twon24 * z));
-            iq[jz] = (int)(z - two24 * fw);
+            //fw = (double)((int)(twon24 * z));
+            //iq[jz] = (int)(z - two24 * fw);
+            fw = Math.floor(twon24 * z);
+            iq[jz] = Math.floor(z - two24 * fw);
             jz += 1;
             q0 += 24;
-            iq[jz] = (int) fw;
-        } else iq[jz] = (int) z;
+            //iq[jz] = (int) fw;
+            iq[jz] = Math.floor(fw);
+        } else {
+            //iq[jz] = (int) z;
+            iq[jz] = Math.floor(z);
+        }
     }
 
     /* convert integer "bit" chunk to floating-point value */
     fw = scalbn(one, q0);
     for (i = jz; i >= 0; i--) {
-        q[i] = fw * (double) iq[i];
+        q[i] = fw * iq[i];
         fw *= twon24;
     }
 
@@ -307,6 +345,7 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
         fq[jz - i] = fw;
     }
 
+    console.log("PIo2 comp " + fq);
     /* compress fq[] into y[] */
     switch (prec) {
       case 0:
@@ -349,5 +388,6 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
               y[2] = -fw;
           }
     }
+    console.log ("Return n = " + n + ", y = " + y);
     return n & 7;
 }
