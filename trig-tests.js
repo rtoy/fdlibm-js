@@ -4,7 +4,7 @@
 // point numbers such that the actual value is the IEEE754 float that
 // is closest to the given decimal value.  If there is a case where
 // this is NOT true, then the floating point values must be replaced
-// with calls to makeDoubleFloat to get the exact expected values.
+// with calls to _ConstructDouble to get the exact expected values.
 //
 // The expected values MUST be exactly equal; any difference signifies
 // an error in the algorithms somewhere.
@@ -56,7 +56,7 @@ describe(
            });
         it("Test case |x| ~> 0.78125, cos(0.7812504768371582e0)",
            function () {
-               var x = makeDoubleFloat(0x3fe90001, 0);
+               var x = _ConstructDouble(0x3fe90001, 0);
                var y = kernel_cos(x, 0);
                expect(y).toBe(0.7100335477927638e0);
            });
@@ -153,7 +153,7 @@ describe(
            });
         it("|x| = 2.356194490192345e0",
            function () {
-               var x = makeDoubleFloat(0x4002d97b, 0xffffffff);
+               var x = _ConstructDouble(0x4002d97b, 0xffffffff);
                var y = ieee754_rem_pio2(x);
                expect(y[0]).toBe(1);
                expect(y[1]).toBe(0.7853972156855716e0);
@@ -161,7 +161,7 @@ describe(
            });
         it("|x| = 2.3561935424804688e0",
            function () {
-               var x = makeDoubleFloat(0x4002d97c, 0);
+               var x = _ConstructDouble(0x4002d97c, 0);
                var y = ieee754_rem_pio2(x);
                expect(y[0]).toBe(1);
                expect(y[1]).toBe(0.7853972156855721e0);

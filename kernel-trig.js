@@ -1,39 +1,6 @@
 // A straightforward translation of fdlibm routines for sin, cos, and
 // tan, by Raymond Toy (rtoy@google.com).
 
-function doubleHighBits(f) {
-    // Return the most significant 32 bits of a double float number.
-    // This contains the sign, exponent, and 21 bits of the mantissa.
-    var buf = new ArrayBuffer(8);
-    (new Float64Array(buf))[0] = f;
-    // Index 1 if the machine is little-endian.  Use index 0 for big-endian.
-    var hi = (new Uint32Array(buf))[1];
-
-    // Return as a signed integer
-    return hi | 0;
-}
-
-function doubleLowBits(f) {
-    // Return the least significant 32 bits of a double float number.
-    // This contains the lower 32 bits of the mantissa.
-    var buf = new ArrayBuffer(8);
-    (new Float64Array(buf))[0] = f;
-    // Index 1 if the machine is little-endian.  Use index 1 for big-endian.
-    var lo = (new Uint32Array(buf))[0];
-
-    return lo;
-}
-
-function makeDoubleFloat(high, low)
-{
-    var buf = new ArrayBuffer(8);
-    // This following is for a little-endian machine.  For a
-    // big-endian machine reverse the indices.
-    (new Uint32Array(buf))[1] = high;
-    (new Uint32Array(buf))[0] = low;
-    return new Float64Array(buf)[0];
-}
-
 // __kernel_sin( x, y, iy)
 // kernel sin function on [-pi/4, pi/4], pi/4 ~ 0.7854
 // Input x is assumed to be bounded by ~pi/4 in magnitude.
@@ -150,7 +117,7 @@ function kernel_cos(x, y)
             qx = 0.28125;
         } else {
             // qx = x/4, but the low 32 bits are of the product are slammed to zero.
-            qx = makeDoubleFloat(doubleHighBits(0.25*x), 0);
+            qx = _ConstructDouble(_DoubleHi(0.25*x), 0);
         }
 
         var hz = 0.5*z - qx;
@@ -196,13 +163,13 @@ function kernel_tan(x, y, returnTan)
 {
     var z;
     var w;
-    var hx = doubleHighBits(x);
+    var hx = _DoubleHi(x);
     var ix = hx & 0x7fffffff;
     
     if (ix < 0x3e300000) {
         // x < 2^-28
         // We don't try to generate inexact.
-        if (((ix | doubleLowBits(x)) | (returnTan + 1)) == 0) {
+        if (((ix | _DoubleLo(x)) | (returnTan + 1)) == 0) {
             return 1 / Math.abs(x);
         } else {
             if (returnTan == 1) {
@@ -210,10 +177,10 @@ function kernel_tan(x, y, returnTan)
             } else {
                 // Compute -1/(x + y) carefully
                 var w = x + y;
-                var z = makeDoubleFloat(doubleHighBits(w), 0);
+                var z = _ConstructDouble(_DoubleHi(w), 0);
                 var v = y - (z - x);
                 var a = -1 / w;
-                var t = makeDoubleFloat(doubleHighBits(a), 0);
+                var t = _ConstructDouble(_DoubleHi(a), 0);
                 var s = 1 + t * z;
                 return t + a * (s + t * v);
             }
@@ -271,10 +238,10 @@ function kernel_tan(x, y, returnTan)
         return w;
     } else {
         // Compute -1/(x+r) accurately
-        z = makeDoubleFloat(doubleHighBits(w), 0);
+        z = _ConstructDouble(_DoubleHi(w), 0);
         v = r - (z - x); // z+v = r+x
         var a = -1 / w;
-        var t = makeDoubleFloat(doubleHighBits(a), 0);
+        var t = _ConstructDouble(_DoubleHi(a), 0);
         s = 1 + t*z;
         return t + a*(s + t*v);
     }
@@ -368,7 +335,7 @@ function ieee754_rem_pio2(x)
     var e0, i, j, nx, n;
     var y0, y1;
     
-    var hx = doubleHighBits(x);
+    var hx = _DoubleHi(x);
     var ix = hx & 0x7fffffff;
 
     if (ix <= 0x3fe921fb) {
@@ -377,8 +344,8 @@ function ieee754_rem_pio2(x)
     }
 
 //    if (ix < 0x4002d97c) {
-    // ix < 0x4002d97c is the same as |x| <= makeDoubleFloat(0x4002d97b, 0xffffffff)
-    if (Math.abs(x) <= makeDoubleFloat(0x4002d97b, 0xffffffff)) {
+    // ix < 0x4002d97c is the same as |x| <= _ConstructDouble(0x4002d97b, 0xffffffff)
+    if (Math.abs(x) <= _ConstructDouble(0x4002d97b, 0xffffffff)) {
         // |x| ~< 3*pi/4, special case with n = +/- 1
         if (hx > 0) {
             z = x - pio2_1;
@@ -411,8 +378,8 @@ function ieee754_rem_pio2(x)
     }
 
 //    if (ix <= 0x413921fb) {
-    // ix <= 0x413921fb is the same as |x| <= makeDoubleFloat(0x413921fb, 0xffffffff)
-    if (Math.abs(x) <= makeDoubleFloat(0x413921fb, 0xffffffff)) {
+    // ix <= 0x413921fb is the same as |x| <= _ConstructDouble(0x413921fb, 0xffffffff)
+    if (Math.abs(x) <= _ConstructDouble(0x413921fb, 0xffffffff)) {
         // |x| ~<= 2^19*(pi/2), medium size
         t = Math.abs(x);
         n = Math.floor(t * invpio2 + 0.5);
@@ -423,7 +390,7 @@ function ieee754_rem_pio2(x)
         if (n < 32 && ix != npio2_hw[n-1]) {
             // Quick check for cancellation
             y0 = r - w;
-        } else if (n < 32 && doubleLowBits(x) == npio2_lw[n-1]) {
+        } else if (n < 32 && _DoubleLo(x) == npio2_lw[n-1]) {
             // Exactly equal to a (machine) multiple of pi/2, so
             // lookup result instead of doing the third iteration that
             // would otherwise be needed.
@@ -436,7 +403,7 @@ function ieee754_rem_pio2(x)
         } else {
             j = ix >> 20;
             y0 = r - w;
-            i = j - (doubleHighBits(y0)>>20) & 0x7ff;
+            i = j - (_DoubleHi(y0)>>20) & 0x7ff;
 	    console.log("x = " + x + "; j = " + j + "; i = " + i);
             if (i > 16) {
                 // 2nd iteration needed, good to 118
@@ -445,7 +412,7 @@ function ieee754_rem_pio2(x)
                 r = t - w;
                 w = fn * pio2_2t - ((t - r) - w);
                 y0 = r - w;
-                i = j - (doubleHighBits(y0) >> 20) & 0x7ff;
+                i = j - (_DoubleHi(y0) >> 20) & 0x7ff;
 		console.log("2nd iteration; i = " + i + "; y0 = " + y0);
                 if (i > 49) {
 		    console.log("3rd iteration needed");
@@ -476,7 +443,7 @@ function ieee754_rem_pio2(x)
 
     // set z = scalbn(|x|, ilogb(x)-23)
     e0 = (ix >> 20) - 1046;
-    z = makeDoubleFloat(ix - (e0 << 20), doubleLowBits(x));
+    z = _ConstructDouble(ix - (e0 << 20), _DoubleLo(x));
 
     console.log("x = " + x);
     console.log("z = " + z);
@@ -507,7 +474,7 @@ function ieee754_rem_pio2(x)
 
 function sin (x)
 {
-    var ix = doubleHighBits(x) & 0x7fffffff;
+    var ix = _DoubleHi(x) & 0x7fffffff;
 
     if (ix <= 0x3fe921fb) {
 	// |x| < pi/4, approximately.  No reduction needed.
@@ -536,7 +503,7 @@ function sin (x)
 
 function cos (x)
 {
-    var ix = doubleHighBits(x) & 0x7fffffff;
+    var ix = _DoubleHi(x) & 0x7fffffff;
 
     if (ix <= 0x3fe921fb) {
 	// |x| < pi/4, approximately.  No reduction needed.
@@ -566,7 +533,7 @@ function cos (x)
 
 function tan (x)
 {
-    var ix = doubleHighBits(x) & 0x7fffffff;
+    var ix = _DoubleHi(x) & 0x7fffffff;
 
     if (ix <= 0x3fe921fb) {
 	// |x| < pi/4, approximately.  No reduction needed.

@@ -4,7 +4,7 @@
 // point numbers such that the actual value is the IEEE754 float that
 // is closest to the given decimal value.  If there is a case where
 // this is NOT true, then the floating point values must be replaced
-// with calls to makeDoubleFloat to get the exact expected values.
+// with calls to _ConstructDouble to get the exact expected values.
 //
 // The expected values MUST be exactly equal; any difference signifies
 // an error in the algorithms somewhere.
