@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <style>
+      table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        border-spacing: 5px;
+      }
+      th, td {
+        padding: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>Random implementations of special functions for Javascript</h2>
+
+    <p>
+      Here is a collection of various tests for special functions. There is also a set of tests
+      using the builtin Math implementations for comparing between the fdlibm port and the builtin
+      version.
+    </p>
+    <p>
+      It's likely that no browser passes all of the Javascript tests.  Many of the expected results
+      use an expected value that is produced by fdlibm, which might differ from the true correctly
+      rounded result by (less than) 1 ulp.
+    </p>
+
+    <table>
+        <tr>
+          <th>Function</th>
+          <th>fdlibm</th>
+          <th>Javascript</th>
+        </tr>
+        <tr>
+          <td>sin, cos, tan</td>
+          <td><a href="test-trig.html">fdlibm trig</a></td>
+          <td><a href="test-math.trig.html">Math.trig</a></td>
+        </tr>
+        <tr>
+          <td>log1p</td>
+          <td><a href="test-log1p.html">fdlibm log1p</a></td>
+          <td><a href="test-math.log1p.html">Math.log1p</a></td>
+        </tr>
+        <tr>
+          <td>expm1</td>
+          <td><a href="test-expm1.html">fdlibm expm1</a></td>
+          <td><a href="test-math.expm1.html">Math.expm1</a></td>
+        </tr>
+        <tr>
+          <td>asinh</td>
+          <td><a href="test-asinh.html">fdlibm asinh</a></td>
+          <td><a href="test-math.asinh.html">Math.asinh</a></td>
+        </tr>
+        <tr>
+          <td>acosh</td>
+          <td><a href="test-acosh.html">fdlibm acosh</a></td>
+          <td><a href="test-math.acosh.html">Math.acosh</a></td>
+        </tr>
+        <tr>
+          <td>atanh</td>
+          <td><a href="test-atanh.html">fdlibm atanh</a></td>
+          <td><a href="test-math.atanh.html">Math.atanh</a></td>
+        </tr>
+        <tr>
+          <td>exp</td>
+          <td><a href="test-exp.html">fdlibm exp</a></td>
+          <td><a href="test-math.exp.html">Math.exp</a></td>
+        </tr>
+        <tr>
+          <td>sinh</td>
+          <td>
+            <a href="test-sinh.html">fdlibm sinh (with fdlibm exp)</a>
+            <br>
+            <a href="test-sinh-exp.html">fdlibm sinh (with Math.exp)</a>
+          </td>
+          <td><a href="test-math.sinh.html">Math.sinh</a></td>
+        </tr>
+        <tr>
+          <td>cosh</td>
+          <td>
+            <a href="test-cosh.html">fdlibm cosh (with fdlibm exp)</a>
+            <br>
+            <a href="test-cosh-exp.html">fdlibm cosh (with Math.exp)</a>
+          </td>
+          <td><a href="test-math.cosh.html">Math.cosh</a></td>
+        </tr>
+        <tr>
+          <td>tanh</td>
+          <td><a href="test-tanh.html">fdlibm tanh (with fdlibm expm1)</a></td>
+          <td><a href="test-math.tanh.html">Math.tanh</a></td>
+        </tr>
+        <tr>
+          <td>log10</td>
+          <td><a href="test-log10.html">fdlibm log10 (with Math.log)</a></td>
+          <td><a href="test-math.log10.html">Math.log10</a></td>
+        </tr>
+        <tr>
+          <td>log2</td>
+          <td><a href="test-log2.html">fdlibm log2</a></td>
+          <td><a href="test-math.log2.html">Math.log2</a></td>
+        </tr>
+        <tr>
+          <td>log</td>
+          <td><a href="test-log.html">fdlibm log</a></td>
+          <td><a href="test-math.log.html">Math.log</a></td>
+        </tr>
+    </table>
+    
+  </body>
+</html>
