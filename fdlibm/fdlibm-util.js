@@ -36,3 +36,6 @@ function relerr(actual, expected)
 {
     return Math.abs(actual - expected) / expected;
 }
+
+// Verbose logging level. 0 means no messages.
+var verbose = 0;

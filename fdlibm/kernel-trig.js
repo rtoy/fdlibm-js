@@ -198,7 +198,8 @@ function kernel_tan(x, y, returnTan)
         w = pio4lo - y;
         x = z + w;
         y = 0;
-        console.log("|x| > .6744; x = " + x);
+        if (verbose > 0)
+            console.log("|x| > .6744; x = " + x);
     }
     z = x * x;
     w = z * z;
@@ -229,8 +230,10 @@ function kernel_tan(x, y, returnTan)
     r = r + T0 * s;
     w = x + r;
     if (ix >= 0x3fe59428) {
-        console.log("hx = " + hx);
-        console.log("scale = " + (1 - ((hx >> 30) & 2)));
+        if (verbose > 0) {
+            console.log("hx = " + hx);
+            console.log("scale = " + (1 - ((hx >> 30) & 2)));
+        }
         return (1 - ((hx >> 30) & 2)) *
             (returnTan - 2.0 * (x - (w * w / (w + returnTan) - r)));
     }
@@ -398,7 +401,8 @@ function ieee754_rem_pio2(x)
             // Exactly equal to a (machine) multiple of pi/2, so
             // lookup result instead of doing the third iteration that
             // would otherwise be needed.
-	    console.log("Exactly equal to pi/2*" + n);
+            if (verbose > 0)
+                console.log("Exactly equal to pi/2*" + n);
 	    if (hx < 0) {
 		return [-n, -rempi2_y0[n-1], -rempi2_y1[n-1]];
 	    } else {
@@ -408,7 +412,8 @@ function ieee754_rem_pio2(x)
             j = ix >> 20;
             y0 = r - w;
             i = j - (_DoubleHi(y0)>>20) & 0x7ff;
-	    console.log("x = " + x + "; j = " + j + "; i = " + i);
+            if (verbose > 0)
+                console.log("x = " + x + "; j = " + j + "; i = " + i);
             if (i > 16) {
                 // 2nd iteration needed, good to 118
                 t = r;
@@ -417,9 +422,11 @@ function ieee754_rem_pio2(x)
                 w = fn * pio2_2t - ((t - r) - w);
                 y0 = r - w;
                 i = j - (_DoubleHi(y0) >> 20) & 0x7ff;
-		console.log("2nd iteration; i = " + i + "; y0 = " + y0);
+		if (verbose > 0)
+                    console.log("2nd iteration; i = " + i + "; y0 = " + y0);
                 if (i > 49) {
-		    console.log("3rd iteration needed");
+		    if (verbose > 0)
+                        console.log("3rd iteration needed");
                     // 3rd iteration needed. 151 bits accuracy
                     t = r;
                     w = fn * pio2_3;
@@ -449,8 +456,10 @@ function ieee754_rem_pio2(x)
     e0 = (ix >> 20) - 1046;
     z = _ConstructDouble(ix - (e0 << 20), _DoubleLo(x));
 
-    console.log("x = " + x);
-    console.log("z = " + z);
+    if (verbose > 0) {
+        console.log("x = " + x);
+        console.log("z = " + z);
+    }
     var tx = new Float64Array(3);
     for (i = 0; i < 2; i++) {
 	tx[i] = Math.floor(z);
@@ -458,17 +467,21 @@ function ieee754_rem_pio2(x)
     }
     tx[2] = z;
     nx = 3;
-    console.log("tx[0] = " + tx[0]);
-    console.log("tx[1] = " + tx[1]);
-    console.log("tx[2] = " + tx[2]);
+    if (verbose > 0) {
+        console.log("tx[0] = " + tx[0]);
+        console.log("tx[1] = " + tx[1]);
+        console.log("tx[2] = " + tx[2]);
+    }
     while (tx[nx - 1] == 0)
 	--nx;
-    console.log("Final nx = " + nx);
+    if (verbose > 0)
+        console.log("Final nx = " + nx);
 
     // Call Payne-Hanek reduction
     var y = Array(3);
     n = kernel_rem_pio2(tx, y, e0, nx, 2, two_over_pi);
-    console.log("rem: n = " + n + ", y = " + y);
+    if (verbose > 0)
+        console.log("rem: n = " + n + ", y = " + y);
     if (hx < 0) {
         return [-n, -y[0], -y[1]];
     } else {
