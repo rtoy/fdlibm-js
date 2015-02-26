@@ -151,6 +151,22 @@ describe(
                expect(y[1]).toBe(-x);
                expect(y[2]).toBe(0);
            });
+        it("x = -1.5707950592041016, neg value where 33+53 bits of pi is enough",
+           function () {
+               var x = - _ConstructDouble(0x3ff921fa, 0);
+               var y = ieee754_rem_pio2(x);
+               expect(y[0]).toBe(-1);
+               expect(y[1]).toBe(1.2675907950567314e-6);
+               expect(y[2]).toBe(-9.53196408996653e-23);
+           });
+        it("x = -1.5707969665527344, neg value where 33+53 bits of pi is enough",
+           function () {
+               var x = - _ConstructDouble(0x3ff921fc, 0);
+               var y = ieee754_rem_pio2(x);
+               expect(y[0]).toBe(-1);
+               expect(y[1]).toBe(-6.397578377557687e-7);
+               expect(y[2]).toBe(1.0559477507122244e-23);
+           });
         it("|x| = 2.356194490192345e0",
            function () {
                var x = _ConstructDouble(0x4002d97b, 0xffffffff);
