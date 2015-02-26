@@ -104,6 +104,11 @@ describe(
 		var y = expm1(x);
 		expect(y).toBe(1);
 	    });
+        it("expm1(0.4) = 0.49182469764127035, test branch k = 1, x_reduced < -0.25",
+           function () {
+               var y = expm1(0.4);
+               expect(y).toBe(0.49182469764127035);
+           });
 	it("expm1(-3*log(2)), test branch k <= -2 || k > 56. with k = -3", function () {
 		// Tests the branch k <= -2 || k > 56. k = -3 here.
 		var x = -3 * Math.LN2;
