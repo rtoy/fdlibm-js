@@ -581,6 +581,32 @@ describe(
     });
 
 describe(
+    "Test pi reduction, exceptional args",
+    function () {
+        it("Infinity -> 0, NaN, NaN",
+           function () {
+               var y = ieee754_rem_pio2(Infinity);
+               expect(y[0]).toBe(0);
+               expect(y[1]).toBeNaN();
+               expect(y[2]).toBeNaN();
+           });
+        it("-Infinity -> 0, NaN, NaN",
+           function () {
+               var y = ieee754_rem_pio2(Infinity);
+               expect(y[0]).toBe(0);
+               expect(y[1]).toBeNaN();
+               expect(y[2]).toBeNaN();
+           });
+        it("NaN -> 0, NaN, NaN",
+           function () {
+               var y = ieee754_rem_pio2(Infinity);
+               expect(y[0]).toBe(0);
+               expect(y[1]).toBeNaN();
+               expect(y[2]).toBeNaN();
+           });
+    });
+
+describe(
     "Test sin",
     function () {
 	it("Small arg < pi/4",
