@@ -44,6 +44,7 @@ module.exports = function(config) {
       './log-tests.js',
       './sinh-tests.js',
       './tanh-tests.js',
+      './scalbn-tests.js',
     ],
 
 
