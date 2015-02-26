@@ -18,6 +18,7 @@
 var huge = 1e300;
 var tiny = 1e-300;
 var two54 = Math.pow(2, 54);
+var twom54 = Math.pow(2, -54);
 
 function scalbn(x, n)
 
