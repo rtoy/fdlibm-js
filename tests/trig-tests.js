@@ -830,6 +830,15 @@ describe(
                var y = tan(NaN);
                expect(y).toBeNaN();
            });
+        it("kernel_tan(0, 0, -1) = Infinity",
+           // Covers the case in kernel_tan where x < 2^-28 and ix |
+           // _DoubleLo(x) == 0.  This happens only if x = 0.  This
+           // seems fairly hard to achieve by calling tan directly.  I
+           // don't think that is possible due to argument reduction in tan.
+           function () {
+               var y = kernel_tan(0, 0, -1);
+               expect(y).toBe(Infinity);
+           });
     });
 
 	 
