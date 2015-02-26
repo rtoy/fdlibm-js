@@ -160,6 +160,12 @@ function expm1(x)
 	    // x < -56*ln2 so return -1, with inexact. For Javascript,
 	    // we can probably skip the stuff to set the inexact flag
 	    // and just return -1.
+
+            // I don't think the else case is ever reachable because x
+            // < -38 and tiny = 1e300 so x + tiny < 0 always.  JS
+            // doesn't have an inexact, so maybe just delete the if
+            // test?
+            /* istanbul ignore else */
 	    if (x + tiny < 0)	// This raises inexact.
 		return tiny - 1;
 	}
