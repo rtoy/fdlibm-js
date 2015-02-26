@@ -198,6 +198,7 @@ function kernel_tan(x, y, returnTan)
         w = pio4lo - y;
         x = z + w;
         y = 0;
+        /* istanbul ignore if */
         if (verbose > 0)
             console.log("|x| > .6744; x = " + x);
     }
@@ -230,6 +231,7 @@ function kernel_tan(x, y, returnTan)
     r = r + T0 * s;
     w = x + r;
     if (ix >= 0x3fe59428) {
+        /* istanbul ignore if */
         if (verbose > 0) {
             console.log("hx = " + hx);
             console.log("scale = " + (1 - ((hx >> 30) & 2)));
@@ -401,6 +403,7 @@ function ieee754_rem_pio2(x)
             // Exactly equal to a (machine) multiple of pi/2, so
             // lookup result instead of doing the third iteration that
             // would otherwise be needed.
+            /* istanbul ignore if */
             if (verbose > 0)
                 console.log("Exactly equal to pi/2*" + n);
 	    if (hx < 0) {
@@ -412,6 +415,7 @@ function ieee754_rem_pio2(x)
             j = ix >> 20;
             y0 = r - w;
             i = j - (_DoubleHi(y0)>>20) & 0x7ff;
+            /* istanbul ignore if */
             if (verbose > 0)
                 console.log("x = " + x + "; j = " + j + "; i = " + i);
             if (i > 16) {
@@ -422,9 +426,11 @@ function ieee754_rem_pio2(x)
                 w = fn * pio2_2t - ((t - r) - w);
                 y0 = r - w;
                 i = j - (_DoubleHi(y0) >> 20) & 0x7ff;
+                /* istanbul ignore if */
 		if (verbose > 0)
                     console.log("2nd iteration; i = " + i + "; y0 = " + y0);
                 if (i > 49) {
+                    /* istanbul ignore if */
 		    if (verbose > 0)
                         console.log("3rd iteration needed");
                     // 3rd iteration needed. 151 bits accuracy
@@ -456,6 +462,7 @@ function ieee754_rem_pio2(x)
     e0 = (ix >> 20) - 1046;
     z = _ConstructDouble(ix - (e0 << 20), _DoubleLo(x));
 
+    /* istanbul ignore if */
     if (verbose > 0) {
         console.log("x = " + x);
         console.log("z = " + z);
@@ -467,6 +474,7 @@ function ieee754_rem_pio2(x)
     }
     tx[2] = z;
     nx = 3;
+    /* istanbul ignore if */
     if (verbose > 0) {
         console.log("tx[0] = " + tx[0]);
         console.log("tx[1] = " + tx[1]);
@@ -474,12 +482,14 @@ function ieee754_rem_pio2(x)
     }
     while (tx[nx - 1] == 0)
 	--nx;
+    /* istanbul ignore if */
     if (verbose > 0)
         console.log("Final nx = " + nx);
 
     // Call Payne-Hanek reduction
     var y = Array(3);
     n = kernel_rem_pio2(tx, y, e0, nx, 2, two_over_pi);
+    /* istanbul ignore if */
     if (verbose > 0)
         console.log("rem: n = " + n + ", y = " + y);
     if (hx < 0) {
