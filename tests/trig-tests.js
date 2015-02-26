@@ -653,6 +653,21 @@ describe(
 	       var y = sin(x);
 	       expect(y).toBe(-6.420676210313675e-11);
 	   });
+        it("sin(Inf) = NaN",
+           function () {
+               var y = sin(Infinity);
+               expect(y).toBeNaN();
+           });
+        it("sin(-Inf) = NaN",
+           function () {
+               var y = sin(-Infinity);
+               expect(y).toBeNaN();
+           });
+        it("sin(NaN) = NaN",
+           function () {
+               var y = sin(NaN);
+               expect(y).toBeNaN();
+           });
     });
 
 describe(
@@ -728,6 +743,21 @@ describe(
 	       var y = cos(x);
 	       expect(y).toBe(-3.435757038074824e-12);
 	   });
+        it("cos(Inf) = NaN",
+           function () {
+               var y = cos(Infinity);
+               expect(y).toBeNaN();
+           });
+        it("cos(-Inf) = NaN",
+           function () {
+               var y = cos(-Infinity);
+               expect(y).toBeNaN();
+           });
+        it("cos(NaN) = NaN",
+           function () {
+               var y = cos(NaN);
+               expect(y).toBeNaN();
+           });
     });
 
 describe(
@@ -785,6 +815,21 @@ describe(
 	       var y = tan(x);
 	       expect(y).toBe(2.910566692924059e11);
 	   });
+        it("tan(Inf) = NaN",
+           function () {
+               var y = tan(Infinity);
+               expect(y).toBeNaN();
+           });
+        it("tan(-Inf) = NaN",
+           function () {
+               var y = tan(-Infinity);
+               expect(y).toBeNaN();
+           });
+        it("tan(NaN) = NaN",
+           function () {
+               var y = tan(NaN);
+               expect(y).toBeNaN();
+           });
     });
 
 	 
