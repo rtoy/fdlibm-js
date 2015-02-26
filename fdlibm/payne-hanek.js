@@ -143,16 +143,6 @@ var one = 1.0;
 var two24 = Math.pow(2, 24);
 var twon24 = Math.pow(2, -24);
 
-//
-// copysign(double x, double y)
-// copysign(x,y) returns a value with the magnitude of x and
-// with the sign bit of y.
-//
-function copysign(x, y)
-{
-    return _ConstructDouble((_DoubleHi(x) & 0x7fffffff) | (_DoubleHi(y) & 0x80000000), _DoubleLo(x));
-}
-
 // Compute x*2^n using exponent manipulation instead of exponentiation
 // or multiplication.
 function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
