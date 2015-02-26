@@ -165,6 +165,7 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
     var fq = new Float64Array(20);
     var q = new Float64Array(20);
 
+    /* istanbul ignore if */
     if (verbose > 0) {
         console.log("P-H: x = " + x);
         console.log("e0 = " + e0);
@@ -179,6 +180,7 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
     /* determine jx,jv,q0, note that 3>q0 */
     jx = nx - 1;
     jv = Math.floor((e0 - 3) / 24);
+    /* istanbul ignore if */
     if (verbose > 0)
         console.log("jv = " + jv);
     if (jv < 0)
@@ -188,11 +190,13 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
     /* set up f[0] to f[jx+jk] where f[jx+jk] = ipio2[jv+jk] */
     j = jv - jx;
     m = jx + jk;
+    /* istanbul ignore if */
     if (verbose > 0)
         console.log("Setup f: j, m = " + j + ", " + m);
     for (i = 0; i <= m; i++, j++)
         f[i] = (j < 0) ? zero : ipio2[j];
 
+    /* istanbul ignore if */
     if (verbose > 0) {
         console.log("Post setup f: j, m = " + j + ", " + m);
         console.log(" f = " + f);
@@ -204,6 +208,7 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
         q[i] = fw;
     }
 
+    /* istanbul ignore if */
     if (verbose > 0) {
         console.log("f = " + f);
         console.log("q = " + q);
@@ -287,6 +292,7 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
                     q[i] = fw;
                 }
                 jz += k;
+                /* istanbul ignore if */
                 if (verbose > 0)
                     console.log("Doing recomputation!  jz = " + jz);
                 continue recompute;
@@ -334,6 +340,7 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
         fq[jz - i] = fw;
     }
 
+    /* istanbul ignore if */
     if (verbose > 0)
         console.log("PIo2 comp " + fq);
     /* compress fq[] into y[] */
@@ -378,6 +385,7 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
               y[2] = -fw;
           }
     }
+    /* istanbul ignore if */
     if (verbose > 0)
         console.log ("Return n = " + n + ", y = " + y);
     return n & 7;
