@@ -13,24 +13,24 @@
 // Return the Hyperbolic Tangent of x
 //
 // Method :
-//				       x    -x
-//				      e  - e
-//	0. tanh(x) is defined to be -----------
-//				       x    -x
-//				      e  + e
-//	1. reduce x to non-negative by tanh(-x) = -tanh(x).
-//	2.  0      <= x <= 2**-55 : tanh(x) := x*(one+x)
-//					        -t
-//	    2**-55 <  x <=  1     : tanh(x) := -----; t = expm1(-2x)
-//					       t + 2
-//						     2
-//	    1      <= x <=  22.0  : tanh(x) := 1-  ----- ; t=expm1(2x)
-//						   t + 2
-//	    22.0   <  x <= INF    : tanh(x) := 1.
+//                                     x    -x
+//                                    e  - e
+//      0. tanh(x) is defined to be -----------
+//                                     x    -x
+//                                    e  + e
+//      1. reduce x to non-negative by tanh(-x) = -tanh(x).
+//      2.  0      <= x <= 2**-55 : tanh(x) := x*(one+x)
+//                                              -t
+//          2**-55 <  x <=  1     : tanh(x) := -----; t = expm1(-2x)
+//                                             t + 2
+//                                                   2
+//          1      <= x <=  22.0  : tanh(x) := 1-  ----- ; t=expm1(2x)
+//                                                 t + 2
+//          22.0   <  x <= INF    : tanh(x) := 1.
 //
 // Special cases:
-//	tanh(NaN) is NaN;
-//	only tanh(0)=0 is exact for finite argument.
+//      tanh(NaN) is NaN;
+//      only tanh(0)=0 is exact for finite argument.
 //
 
 function tanh (x) {
