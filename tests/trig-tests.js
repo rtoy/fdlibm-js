@@ -151,6 +151,22 @@ describe(
                expect(y[1]).toBe(-x);
                expect(y[2]).toBe(0);
            });
+        it("x = -1.5707950592041016, neg value where 33+53 bits of pi is enough",
+           function () {
+               var x = - _ConstructDouble(0x3ff921fa, 0);
+               var y = ieee754_rem_pio2(x);
+               expect(y[0]).toBe(-1);
+               expect(y[1]).toBe(1.2675907950567314e-6);
+               expect(y[2]).toBe(-9.53196408996653e-23);
+           });
+        it("x = -1.5707969665527344, neg value where 33+53 bits of pi is enough",
+           function () {
+               var x = - _ConstructDouble(0x3ff921fc, 0);
+               var y = ieee754_rem_pio2(x);
+               expect(y[0]).toBe(-1);
+               expect(y[1]).toBe(-6.397578377557687e-7);
+               expect(y[2]).toBe(1.0559477507122244e-23);
+           });
         it("|x| = 2.356194490192345e0",
            function () {
                var x = _ConstructDouble(0x4002d97b, 0xffffffff);
@@ -228,6 +244,18 @@ describe(
 	       expect(y[1]).toBe(-0.3053138693582048e0);
 	       expect(y[2]).toBe(1.0823396512592494e-17);
 	   });
+        it("First round, |x| = 52 (85 bits, n > 32)",
+           function () {
+               var x = 52;
+	       var y = ieee754_rem_pio2(x);
+	       expect(y[0]).toBe(33);
+	       expect(y[1]).toBe(0.16372121576841156);
+	       expect(y[2]).toBe(5.489801270118963e-18);
+	       y = ieee754_rem_pio2(-x);
+	       expect(y[0]).toBe(-33);
+	       expect(y[1]).toBe(-0.16372121576841156);
+	       expect(y[2]).toBe(-5.489801270118963e-18);
+           });
 	it("Second round, 118 bits, |x| = 4.7123870849609375d0",
 	   function() {
 	       // x is 3/2*pi with the low 32 bits set to 0.
@@ -581,6 +609,32 @@ describe(
     });
 
 describe(
+    "Test pi reduction, exceptional args",
+    function () {
+        it("Infinity -> 0, NaN, NaN",
+           function () {
+               var y = ieee754_rem_pio2(Infinity);
+               expect(y[0]).toBe(0);
+               expect(y[1]).toBeNaN();
+               expect(y[2]).toBeNaN();
+           });
+        it("-Infinity -> 0, NaN, NaN",
+           function () {
+               var y = ieee754_rem_pio2(Infinity);
+               expect(y[0]).toBe(0);
+               expect(y[1]).toBeNaN();
+               expect(y[2]).toBeNaN();
+           });
+        it("NaN -> 0, NaN, NaN",
+           function () {
+               var y = ieee754_rem_pio2(Infinity);
+               expect(y[0]).toBe(0);
+               expect(y[1]).toBeNaN();
+               expect(y[2]).toBeNaN();
+           });
+    });
+
+describe(
     "Test sin",
     function () {
 	it("Small arg < pi/4",
@@ -653,6 +707,21 @@ describe(
 	       var y = sin(x);
 	       expect(y).toBe(-6.420676210313675e-11);
 	   });
+        it("sin(Inf) = NaN",
+           function () {
+               var y = sin(Infinity);
+               expect(y).toBeNaN();
+           });
+        it("sin(-Inf) = NaN",
+           function () {
+               var y = sin(-Infinity);
+               expect(y).toBeNaN();
+           });
+        it("sin(NaN) = NaN",
+           function () {
+               var y = sin(NaN);
+               expect(y).toBeNaN();
+           });
     });
 
 describe(
@@ -728,6 +797,21 @@ describe(
 	       var y = cos(x);
 	       expect(y).toBe(-3.435757038074824e-12);
 	   });
+        it("cos(Inf) = NaN",
+           function () {
+               var y = cos(Infinity);
+               expect(y).toBeNaN();
+           });
+        it("cos(-Inf) = NaN",
+           function () {
+               var y = cos(-Infinity);
+               expect(y).toBeNaN();
+           });
+        it("cos(NaN) = NaN",
+           function () {
+               var y = cos(NaN);
+               expect(y).toBeNaN();
+           });
     });
 
 describe(
@@ -785,6 +869,30 @@ describe(
 	       var y = tan(x);
 	       expect(y).toBe(2.910566692924059e11);
 	   });
+        it("tan(Inf) = NaN",
+           function () {
+               var y = tan(Infinity);
+               expect(y).toBeNaN();
+           });
+        it("tan(-Inf) = NaN",
+           function () {
+               var y = tan(-Infinity);
+               expect(y).toBeNaN();
+           });
+        it("tan(NaN) = NaN",
+           function () {
+               var y = tan(NaN);
+               expect(y).toBeNaN();
+           });
+        it("kernel_tan(0, 0, -1) = Infinity",
+           // Covers the case in kernel_tan where x < 2^-28 and ix |
+           // _DoubleLo(x) == 0.  This happens only if x = 0.  This
+           // seems fairly hard to achieve by calling tan directly.  I
+           // don't think that is possible due to argument reduction in tan.
+           function () {
+               var y = kernel_tan(0, 0, -1);
+               expect(y).toBe(Infinity);
+           });
     });
 
 	 

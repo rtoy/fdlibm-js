@@ -133,7 +133,9 @@ function log1p (x) {
 	    k = (hu >> 20) - 1023;
 	    c = (k > 0) ? 1 - (u - x) : x - (u - 1);
 	    c = c / u;
-	    console.log("u, hu, k, c = " + u + ", " + hu + ", " + k + ", " + c);
+            /* istanbul ignore if */
+            if (verbose > 0)
+                console.log("u, hu, k, c = " + u + ", " + hu + ", " + k + ", " + c);
 	} else {
 	    u = x;
 	    hu = _DoubleHi(u);
@@ -153,7 +155,9 @@ function log1p (x) {
     }
 
     var hfsq = 0.5 * f * f;
-    console.log("hu, f = " + hu + ", " + f);
+    /* istanbul ignore if */
+    if (verbose > 0)
+        console.log("hu, f = " + hu + ", " + f);
     if (hu == 0) {
 	// |f| < 2^-20;
 	if (f == 0) {
@@ -174,7 +178,9 @@ function log1p (x) {
     var s = f/(2.0+f); 
     var z = s*s;
     var R = z*(Lp1+z*(Lp2+z*(Lp3+z*(Lp4+z*(Lp5+z*(Lp6+z*Lp7))))));
-    console.log("hfsq, s, z, r = " + hfsq + ", " + s + ", " + z + ", " + R);
+    /* istanbul ignore if */
+    if (verbose > 0)
+        console.log("hfsq, s, z, r = " + hfsq + ", " + s + ", " + z + ", " + R);
     if (k==0) {
 	return f-(hfsq-s*(hfsq+R));
     } else {

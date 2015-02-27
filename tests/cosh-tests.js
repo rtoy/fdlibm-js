@@ -34,6 +34,18 @@ describe(
                var y = cosh(x);
                expect(y).toBe(1);
            });
+        it("cosh(2^-56) = 1, tiny case",
+           function () {
+               var x = Math.pow(2,-56);
+               var y = cosh(x);
+               expect(y).toBe(1);
+           });
+        it("cosh(-2^-56) = 1, tiny case",
+           function () {
+               var x = -Math.pow(2,-56);
+               var y = cosh(x);
+               expect(y).toBe(1);
+           });
         it("cosh(Math.LN2/4) = (sqrt(2)+1)/2^(5/4), case |x| < 1/2*log(2)",
            function () {
                var x = Math.LN2/4;

@@ -137,7 +137,9 @@ function expm1(x)
     hx &= 0x7fffffff;		// High word of |x|
 
     // Filter out huge and non-finite argument
-    console.log("hx = " + hx);
+    /* istanbul ignore if */
+    if (verbose > 0)
+        console.log("hx = " + hx);
     if (hx >= 0x4043687a) {	// if |x| ~=> 56*ln2
 	if (hx >= 0x40862e42) {	// if |x| >= 709.78
 	    if (hx >= 0x7ff00000) {
@@ -158,17 +160,29 @@ function expm1(x)
 	    // x < -56*ln2 so return -1, with inexact. For Javascript,
 	    // we can probably skip the stuff to set the inexact flag
 	    // and just return -1.
+
+            // I don't think the else case is ever reachable because x
+            // < -38 and tiny = 1e300 so x + tiny < 0 always.  JS
+            // doesn't have an inexact, so maybe just delete the if
+            // test?
+            /* istanbul ignore else */
 	    if (x + tiny < 0)	// This raises inexact.
 		return tiny - 1;
 	}
     }
 
     // Argument  reduction
-    console.log("Arg reduction");
+    /* istanbul ignore if */
+    if (verbose > 0)
+        console.log("Arg reduction");
     if (hx > 0x3fd62e42) { 	// if |x| > 0.5 * ln2
-	console.log("hx > 0.5*log2");
+        /* istanbul ignore if */
+        if (verbose > 0)
+            console.log("hx > 0.5*log2");
 	if (hx < 0x3ff0a2b2) {	// and |x| < 1.5 * ln2
-	    console.log("hx < 1.5 * log2");
+            /* istanbul ignore if */
+            if (verbose > 0)
+                console.log("hx < 1.5 * log2");
 	    if (xsb == 0) {
 		hi = x - ln2_hi;
 		lo = ln2_lo;
@@ -181,7 +195,9 @@ function expm1(x)
 	} else {
 	    // k = (invln2 * x + ((xsb == 0) ? 0.5 : -0.5));
 	    k = (invln2 * x + ((xsb == 0) ? 0.5 : -0.5)) | 0;
-	    console.log("invln2*x, k = " + (invln2*x) + ", " + k);
+            /* istanbul ignore if */
+            if (verbose > 0)
+                console.log("invln2*x, k = " + (invln2*x) + ", " + k);
 	    t = k;
 	    // t*ln2_hi is exact here.
 	    hi = x - t * ln2_hi;
@@ -193,16 +209,22 @@ function expm1(x)
         // When |x| < 2^-54, we can // return x, setting inexact flags
         // when x != 0. The inexact stuff is probably not needed in
         // Javascript.
-	console.log("hx <  0x3c900000");
+        /* istanbul ignore if */
+        if (verbose > 0)
+            console.log("hx <  0x3c900000");
 	t = huge + x;
 	return x - (t - (huge + x));
     } else {
-	console.log("Fall through");
+        /* istanbul ignore if */
+        if (verbose > 0)
+            console.log("Fall through");
 	k = 0;
     }
 
     // x is now in primary range
-    console.log("In range, k = " + k);
+    /* istanbul ignore if */
+    if (verbose > 0)
+        console.log("In range, k = " + k);
     var hfx = 0.5 * x;
     var hxs = x * hfx;
     var r1 = 1 + hxs * (Q1 + hxs * (Q2 + hxs * (Q3 + hxs * (Q4 + hxs * Q5))));
@@ -224,12 +246,16 @@ function expm1(x)
 	}
 
 	if (k <= -2 || k > 56) {
-	    console.log("k <= -2 || k > 56: k = " + k);
+            /* istanbul ignore if */
+            if (verbose > 0)
+                console.log("k <= -2 || k > 56: k = " + k);
 	    // suffice to return exp(x)+1
 	    y = 1 - (e - x);
 	    // Add k to y's exponent
 	    y = _ConstructDouble(_DoubleHi(y) + (k << 20), _DoubleLo(y));
-	    console.log("New y = " + y + ", result = " + (y - 1));
+            /* istanbul ignore if */
+            if (verbose > 0)
+                console.log("New y = " + y + ", result = " + (y - 1));
 	    return y - 1;
 	}
 	if (k < 20) {

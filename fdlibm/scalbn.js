@@ -9,6 +9,16 @@
 // ====================================================
 //
 
+//
+// copysign(double x, double y)
+// copysign(x,y) returns a value with the magnitude of x and
+// with the sign bit of y.
+//
+function copysign(x, y)
+{
+    return _ConstructDouble((_DoubleHi(x) & 0x7fffffff) | (_DoubleHi(y) & 0x80000000), _DoubleLo(x));
+}
+
 // 
 // scalbn (double x, int n)
 // scalbn(x,n) returns x* 2**n  computed by  exponent  
@@ -18,6 +28,7 @@
 var huge = 1e300;
 var tiny = 1e-300;
 var two54 = Math.pow(2, 54);
+var twom54 = Math.pow(2, -54);
 
 function scalbn(x, n)
 

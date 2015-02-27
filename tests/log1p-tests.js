@@ -19,6 +19,16 @@ describe(
 		var y = log1p(x);
 		expect(y).toBe(709.782712893384e0);
 	    });
+        it("log1p(Infinity) = Infinity",
+           function () {
+               var y = log1p(Infinity);
+               expect(y).toBe(Infinity);
+           });
+        it("log1p(NaN) = NaN",
+           function () {
+               var y = log1p(NaN);
+               expect(y).toBeNaN();
+           });
     });
 
 describe(
@@ -49,6 +59,12 @@ describe(
 		// True value is log(1.25) = log(5/4) = log(5)-2*log(2)
 		var y = log1p(x);
 		expect(y).toBe(0.22314355131420976e0);
+	    });
+	it("log1p(-0.375), -.2929 < x < .41422, where k = 0", function () {
+		var x = -0.375;
+		// True value is log(1-3/8) = log(5/8) = log(5) - 3*log(2)
+		var y = log1p(x);
+		expect(y).toBe(-0.4700036292457356);
 	    });
 	it("log1p(10), 0.41422 < x < 9.007e15", function () {
 		var x = 10;

@@ -143,16 +143,6 @@ var one = 1.0;
 var two24 = Math.pow(2, 24);
 var twon24 = Math.pow(2, -24);
 
-//
-// copysign(double x, double y)
-// copysign(x,y) returns a value with the magnitude of x and
-// with the sign bit of y.
-//
-function copysign(x, y)
-{
-    return _ConstructDouble((_DoubleHi(x) & 0x7fffffff) | (_DoubleHi(y) & 0x80000000), _DoubleLo(x));
-}
-
 // Compute x*2^n using exponent manipulation instead of exponentiation
 // or multiplication.
 function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
@@ -165,10 +155,13 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
     var fq = new Float64Array(20);
     var q = new Float64Array(20);
 
-    console.log("P-H: x = " + x);
-    console.log("e0 = " + e0);
-    console.log("nx = " + nx);
-    console.log("prec = " + prec);
+    /* istanbul ignore if */
+    if (verbose > 0) {
+        console.log("P-H: x = " + x);
+        console.log("e0 = " + e0);
+        console.log("nx = " + nx);
+        console.log("prec = " + prec);
+    }
     //console.log("ipio2 = " + ipio2);
     /* initialize jk*/
     jk = init_jk[prec];
@@ -177,7 +170,9 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
     /* determine jx,jv,q0, note that 3>q0 */
     jx = nx - 1;
     jv = Math.floor((e0 - 3) / 24);
-    console.log("jv = " + jv);
+    /* istanbul ignore if */
+    if (verbose > 0)
+        console.log("jv = " + jv);
     if (jv < 0)
         jv = 0;
     q0 = e0 - 24 * (jv + 1);
@@ -185,12 +180,17 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
     /* set up f[0] to f[jx+jk] where f[jx+jk] = ipio2[jv+jk] */
     j = jv - jx;
     m = jx + jk;
-    console.log("Setup f: j, m = " + j + ", " + m);
+    /* istanbul ignore if */
+    if (verbose > 0)
+        console.log("Setup f: j, m = " + j + ", " + m);
     for (i = 0; i <= m; i++, j++)
         f[i] = (j < 0) ? zero : ipio2[j];
-    
-    console.log("Post setup f: j, m = " + j + ", " + m);
-    console.log(" f = " + f);
+
+    /* istanbul ignore if */
+    if (verbose > 0) {
+        console.log("Post setup f: j, m = " + j + ", " + m);
+        console.log(" f = " + f);
+    }
     /* compute q[0],q[1],...q[jk] */
     for (i = 0; i <= jk; i++) {
         for (j = 0, fw = 0.0; j <= jx; j++)
@@ -198,8 +198,11 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
         q[i] = fw;
     }
 
-    console.log("f = " + f);
-    console.log("q = " + q);
+    /* istanbul ignore if */
+    if (verbose > 0) {
+        console.log("f = " + f);
+        console.log("q = " + q);
+    }
 
     jz = jk;
     var doRecompute = true;
@@ -279,7 +282,9 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
                     q[i] = fw;
                 }
                 jz += k;
-                console.log("Doing recomputation!  jz = " + jz);
+                /* istanbul ignore if */
+                if (verbose > 0)
+                    console.log("Doing recomputation!  jz = " + jz);
                 continue recompute;
             }
         }
@@ -325,7 +330,9 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
         fq[jz - i] = fw;
     }
 
-    console.log("PIo2 comp " + fq);
+    /* istanbul ignore if */
+    if (verbose > 0)
+        console.log("PIo2 comp " + fq);
     /* compress fq[] into y[] */
     switch (prec) {
       case 0:
@@ -368,6 +375,8 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
               y[2] = -fw;
           }
     }
-    console.log ("Return n = " + n + ", y = " + y);
+    /* istanbul ignore if */
+    if (verbose > 0)
+        console.log ("Return n = " + n + ", y = " + y);
     return n & 7;
 }
