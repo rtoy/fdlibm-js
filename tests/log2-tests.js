@@ -35,6 +35,7 @@ describe(
            });
     });
                
+// Not necessary for code coverage, but useful consistency test
 describe(
     "Test integral powers of 2",
     function () {
@@ -101,8 +102,27 @@ describe(
                var y = log2(100);
                expect(y).toBe(6.643856189774724);
            });
+        it("log2(1.125), case x < sqrt(3/2)",
+           function () {
+               var y = log2(1.125);
+               // log2(1.125) = log2(9/8) = 2*log2(3) - 3
+               expect(y).toBe(0.16992500144231237);
+           });
+        it("log2(1.75), case x > sqrt(3)",
+           function () {
+               var y = log2(1.75);
+               // log2(1.75) = log2(7/4) = log2(7)-2
+               expect(y).toBe(0.8073549220576041);
+           });
+        it("log2(2^-1024), denormal",
+           function () {
+               var x = Math.pow(2, -1024);
+               var y = log2(x);
+               expect(y).toBe(-1024);
+           })
     });
                
+// Not necessary for code coverage, but useful consistency test
 describe(
     "Test relationships",
     function () {
