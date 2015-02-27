@@ -933,7 +933,15 @@ describe(
 	       expect(y[1]).toBe(-0.5485007365654182);
 	       expect(y[2]).toBe(3.571551869859819e-17);
            });
-
+        it("2^97 mod pi/2",
+           // Tests recompute loop with q0 = 2
+           function () {
+               var x = Math.pow(2, 97);
+               var y = ieee754_rem_pio2(x);
+	       expect(y[0]).toBe(4);
+	       expect(y[1]).toBe(-0.13245606646001967);
+	       expect(y[2]).toBe(-1.5948013286730919e-18);
+           });
 	it("2^120 mod pi/2 = 6, -0.3874407610553695e0, -9.20673926649024e-18 ",
 	   function () {
 	       var x = Math.pow(2,120);
