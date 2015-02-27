@@ -915,6 +915,25 @@ describe(
 	       expect(y[1]).toBe(0.6708347147154236);
 	       expect(y[2]).toBe(-1.1076107309666886e-17);
            });
+        it("2^119 mod pi/2",
+           // Tests recompute loop with q0 = 0.
+           function () {
+               var x = Math.pow(2, 119);
+               var y = ieee754_rem_pio2(x);
+	       expect(y[0]).toBe(7);
+	       expect(y[1]).toBe(-0.19372038052768475);
+	       expect(y[2]).toBe(-4.60336963324512e-18);
+           });
+        it("2^101 mod pi/2",
+           // Tests recompute loop with q0 < 0, z >= 0.5
+           function () {
+               var x = Math.pow(2, 101);
+               var y = ieee754_rem_pio2(x);
+	       expect(y[0]).toBe(7);
+	       expect(y[1]).toBe(-0.5485007365654182);
+	       expect(y[2]).toBe(3.571551869859819e-17);
+           });
+
 	it("2^120 mod pi/2 = 6, -0.3874407610553695e0, -9.20673926649024e-18 ",
 	   function () {
 	       var x = Math.pow(2,120);
