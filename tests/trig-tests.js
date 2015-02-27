@@ -899,6 +899,22 @@ describe(
 describe(
     "Test Payne-Hanek reduction",
     function () {
+        it("1647100 mod pi/2: ",
+           function () {
+               var x = 1647100;
+               var y = ieee754_rem_pio2(x);
+	       expect(y[0]).toBe(0);
+	       expect(y[1]).toBe(0.6708347144825929);
+	       expect(y[2]).toBe(-1.1076107309666874e-17);
+           });
+        it("1647100.0000000002 mod pi/2: ",
+           function () {
+               var x = 1647100.0000000002;
+               var y = ieee754_rem_pio2(x);
+	       expect(y[0]).toBe(0);
+	       expect(y[1]).toBe(0.6708347147154236);
+	       expect(y[2]).toBe(-1.1076107309666886e-17);
+           });
 	it("2^120 mod pi/2 = 6, -0.3874407610553695e0, -9.20673926649024e-18 ",
 	   function () {
 	       var x = Math.pow(2,120);
