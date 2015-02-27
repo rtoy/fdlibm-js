@@ -131,6 +131,8 @@ describe(
            });
     });
 
+// Not necessary for code coverage, but useful to make sure we satisfy
+// basic math identities.
 describe(
     "Test basic relationships",
     function () {
