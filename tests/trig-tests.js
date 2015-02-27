@@ -244,6 +244,18 @@ describe(
 	       expect(y[1]).toBe(-0.3053138693582048e0);
 	       expect(y[2]).toBe(1.0823396512592494e-17);
 	   });
+        it("First round, |x| = 52 (85 bits, n > 32)",
+           function () {
+               var x = 52;
+	       var y = ieee754_rem_pio2(x);
+	       expect(y[0]).toBe(33);
+	       expect(y[1]).toBe(0.16372121576841156);
+	       expect(y[2]).toBe(5.489801270118963e-18);
+	       y = ieee754_rem_pio2(-x);
+	       expect(y[0]).toBe(-33);
+	       expect(y[1]).toBe(-0.16372121576841156);
+	       expect(y[2]).toBe(-5.489801270118963e-18);
+           });
 	it("Second round, 118 bits, |x| = 4.7123870849609375d0",
 	   function() {
 	       // x is 3/2*pi with the low 32 bits set to 0.
