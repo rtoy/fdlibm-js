@@ -25,6 +25,8 @@ describe(
             });
     });
 
+// Not necessary for code coverage, but a nice consistency test to
+// make sure we get expected results for powers of ten.
 describe(
     "Test powers of 10",
     function () {
@@ -35,7 +37,9 @@ describe(
                // exactly representable by a float.  Someone will have
                // to do the proof that log10(10^n) is actually n for
                // these other values of n.  However, fdlibm's log10
-               // function does return n for n from -311 to 308. V8 does not support this range because Math.pow(10,n) is inaccurate for some of the these values.
+               // function does return n for n from -311 to 308. V8
+               // does not support this range because Math.pow(10,n)
+               // is inaccurate for some of the these values.
                for (var n = -311; n <= 308; ++n) {
                    var x = Math.pow(10,n);
                    var y = log10(x);
