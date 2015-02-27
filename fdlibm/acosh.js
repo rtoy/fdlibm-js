@@ -12,16 +12,16 @@
 
 // __ieee754_acosh(x)
 // Method :
-//	Based on 
-//		acosh(x) = log [ x + sqrt(x*x-1) ]
-//	we have
-//		acosh(x) := log(x)+ln2,	if x is large; else
-//		acosh(x) := log(2x-1/(sqrt(x*x-1)+x)) if x>2; else
-//		acosh(x) := log1p(t+sqrt(2.0*t+t*t)); where t=x-1.
+//      Based on 
+//              acosh(x) = log [ x + sqrt(x*x-1) ]
+//      we have
+//              acosh(x) := log(x)+ln2, if x is large; else
+//              acosh(x) := log(2x-1/(sqrt(x*x-1)+x)) if x>2; else
+//              acosh(x) := log1p(t+sqrt(2.0*t+t*t)); where t=x-1.
 //
 // Special cases:
-//	acosh(x) is NaN with signal if x<1.
-//	acosh(NaN) is NaN without signal.
+//      acosh(x) is NaN with signal if x<1.
+//      acosh(NaN) is NaN without signal.
 //
 
 function acosh (x) {

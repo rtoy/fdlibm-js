@@ -8,25 +8,25 @@
 // Input iy indicates whether y is 0. (if iy=0, y assume to be 0). 
 //
 // Algorithm
-//	1. Since ieee_sin(-x) = -ieee_sin(x), we need only to consider positive x. 
-//	2. if x < 2^-27 (hx<0x3e400000 0), return x with inexact if x!=0.
-//	3. ieee_sin(x) is approximated by a polynomial of degree 13 on
-//	   [0,pi/4]
-//		  	         3            13
-//	   	sin(x) ~ x + S1*x + ... + S6*x
-//	   where
-//	
-// 	|ieee_sin(x)         2     4     6     8     10     12  |     -58
-// 	|----- - (1+S1*x +S2*x +S3*x +S4*x +S5*x  +S6*x   )| <= 2
-// 	|  x 					           | 
+//      1. Since ieee_sin(-x) = -ieee_sin(x), we need only to consider positive x. 
+//      2. if x < 2^-27 (hx<0x3e400000 0), return x with inexact if x!=0.
+//      3. ieee_sin(x) is approximated by a polynomial of degree 13 on
+//         [0,pi/4]
+//                               3            13
+//              sin(x) ~ x + S1*x + ... + S6*x
+//         where
+//      
+//      |ieee_sin(x)         2     4     6     8     10     12  |     -58
+//      |----- - (1+S1*x +S2*x +S3*x +S4*x +S5*x  +S6*x   )| <= 2
+//      |  x                                               | 
 // 
-//	4. ieee_sin(x+y) = ieee_sin(x) + sin'(x')*y
-//		    ~ ieee_sin(x) + (1-x*x/2)*y
-//	   For better accuracy, let 
-//		     3      2      2      2      2
-//		r = x *(S2+x *(S3+x *(S4+x *(S5+x *S6))))
-//	   then                   3    2
-//		sin(x) = x + (S1*x + (x *(r-y/2)+y))
+//      4. ieee_sin(x+y) = ieee_sin(x) + sin'(x')*y
+//                  ~ ieee_sin(x) + (1-x*x/2)*y
+//         For better accuracy, let 
+//                   3      2      2      2      2
+//              r = x *(S2+x *(S3+x *(S4+x *(S5+x *S6))))
+//         then                   3    2
+//              sin(x) = x + (S1*x + (x *(r-y/2)+y))
 ///
 function kernel_sin(x, y, yNotZero)
 {
@@ -61,32 +61,32 @@ function kernel_sin(x, y, yNotZero)
 // Input y is the tail of x. 
 //
 // Algorithm
-//	1. Since ieee_cos(-x) = ieee_cos(x), we need only to consider positive x.
-//	2. if x < 2^-27 (hx<0x3e400000 0), return 1 with inexact if x!=0.
-//	3. ieee_cos(x) is approximated by a polynomial of degree 14 on
-//	   [0,pi/4]
-//		  	                 4            14
-//	   	cos(x) ~ 1 - x*x/2 + C1*x + ... + C6*x
-//	   where the remez error is
-//	
-// 	|              2     4     6     8     10    12     14 |     -58
-// 	|ieee_cos(x)-(1-.5*x +C1*x +C2*x +C3*x +C4*x +C5*x  +C6*x  )| <= 2
-// 	|    					               | 
+//      1. Since ieee_cos(-x) = ieee_cos(x), we need only to consider positive x.
+//      2. if x < 2^-27 (hx<0x3e400000 0), return 1 with inexact if x!=0.
+//      3. ieee_cos(x) is approximated by a polynomial of degree 14 on
+//         [0,pi/4]
+//                                       4            14
+//              cos(x) ~ 1 - x*x/2 + C1*x + ... + C6*x
+//         where the remez error is
+//      
+//      |              2     4     6     8     10    12     14 |     -58
+//      |ieee_cos(x)-(1-.5*x +C1*x +C2*x +C3*x +C4*x +C5*x  +C6*x  )| <= 2
+//      |                                                      | 
 // 
-// 	               4     6     8     10    12     14 
-//	4. let r = C1*x +C2*x +C3*x +C4*x +C5*x  +C6*x  , then
-//	       ieee_cos(x) = 1 - x*x/2 + r
-//	   since ieee_cos(x+y) ~ ieee_cos(x) - ieee_sin(x)*y 
-//			  ~ ieee_cos(x) - x*y,
-//	   a correction term is necessary in ieee_cos(x) and hence
-//		cos(x+y) = 1 - (x*x/2 - (r - x*y))
-//	   For better accuracy when x > 0.3, let qx = |x|/4 with
-//	   the last 32 bits mask off, and if x > 0.78125, let qx = 0.28125.
-//	   Then
-//		cos(x+y) = (1-qx) - ((x*x/2-qx) - (r-x*y)).
-//	   Note that 1-qx and (x*x/2-qx) is EXACT here, and the
-//	   magnitude of the latter is at least a quarter of x*x/2,
-//	   thus, reducing the rounding error in the subtraction.
+//                     4     6     8     10    12     14 
+//      4. let r = C1*x +C2*x +C3*x +C4*x +C5*x  +C6*x  , then
+//             ieee_cos(x) = 1 - x*x/2 + r
+//         since ieee_cos(x+y) ~ ieee_cos(x) - ieee_sin(x)*y 
+//                        ~ ieee_cos(x) - x*y,
+//         a correction term is necessary in ieee_cos(x) and hence
+//              cos(x+y) = 1 - (x*x/2 - (r - x*y))
+//         For better accuracy when x > 0.3, let qx = |x|/4 with
+//         the last 32 bits mask off, and if x > 0.78125, let qx = 0.28125.
+//         Then
+//              cos(x+y) = (1-qx) - ((x*x/2-qx) - (r-x*y)).
+//         Note that 1-qx and (x*x/2-qx) is EXACT here, and the
+//         magnitude of the latter is at least a quarter of x*x/2,
+//         thus, reducing the rounding error in the subtraction.
 function kernel_cos(x, y)
 {
     if (Math.abs(x) < 7.450587702351184e-9) {
@@ -132,30 +132,30 @@ function kernel_cos(x, y)
 // Input k indicates whether ieee_tan (if k = 1) or -1/tan (if k = -1) is returned.
 //
 // Algorithm
-//	1. Since ieee_tan(-x) = -ieee_tan(x), we need only to consider positive x.
-//	2. if x < 2^-28 (hx<0x3e300000 0), return x with inexact if x!=0.
-//	3. ieee_tan(x) is approximated by a odd polynomial of degree 27 on
-//	   [0,0.67434]
-//		  	         3             27
-//	   	tan(x) ~ x + T1*x + ... + T13*x
-//	   where
+//      1. Since ieee_tan(-x) = -ieee_tan(x), we need only to consider positive x.
+//      2. if x < 2^-28 (hx<0x3e300000 0), return x with inexact if x!=0.
+//      3. ieee_tan(x) is approximated by a odd polynomial of degree 27 on
+//         [0,0.67434]
+//                               3             27
+//              tan(x) ~ x + T1*x + ... + T13*x
+//         where
 //
-// 	        |ieee_tan(x)         2     4            26   |     -59.2
-// 	        |----- - (1+T1*x +T2*x +.... +T13*x    )| <= 2
-// 	        |  x 					|
+//              |ieee_tan(x)         2     4            26   |     -59.2
+//              |----- - (1+T1*x +T2*x +.... +T13*x    )| <= 2
+//              |  x                                    |
 //
-//	   Note: ieee_tan(x+y) = ieee_tan(x) + tan'(x)*y
-//		          ~ ieee_tan(x) + (1+x*x)*y
-//	   Therefore, for better accuracy in computing ieee_tan(x+y), let
-//		     3      2      2       2       2
-//		r = x *(T2+x *(T3+x *(...+x *(T12+x *T13))))
-//	   then
-//		 		    3    2
-//		tan(x+y) = x + (T1*x + (x *(r+y)+y))
+//         Note: ieee_tan(x+y) = ieee_tan(x) + tan'(x)*y
+//                        ~ ieee_tan(x) + (1+x*x)*y
+//         Therefore, for better accuracy in computing ieee_tan(x+y), let
+//                   3      2      2       2       2
+//              r = x *(T2+x *(T3+x *(...+x *(T12+x *T13))))
+//         then
+//                                  3    2
+//              tan(x+y) = x + (T1*x + (x *(r+y)+y))
 //
 //      4. For x in [0.67434,pi/4],  let y = pi/4 - x, then
-//		tan(x) = ieee_tan(pi/4-y) = (1-ieee_tan(y))/(1+ieee_tan(y))
-//		       = 1 - 2*(ieee_tan(y) - (ieee_tan(y)^2)/(1+ieee_tan(y)))
+//              tan(x) = ieee_tan(pi/4-y) = (1-ieee_tan(y))/(1+ieee_tan(y))
+//                     = 1 - 2*(ieee_tan(y) - (ieee_tan(y)^2)/(1+ieee_tan(y)))
 
 // Set returnTan to 1 for tan; -1 for cot.  Anything else is illegal
 // and will cause incorrect results.
@@ -210,19 +210,19 @@ function kernel_tan(x, y, returnTan)
     // x^5(T[1]+x^4*T[3]+...+x^20*T[11]) +
     // x^5(x^2*(T[2]+x^4*T[4]+...+x^22*[T12]))
     //
-    var T0  = 3.33333333333334091986e-01;	/* 3FD55555, 55555563 */
-    var T1  = 1.33333333333201242699e-01;	/* 3FC11111, 1110FE7A */
-    var T2  = 5.39682539762260521377e-02;	/* 3FABA1BA, 1BB341FE */
-    var T3  = 2.18694882948595424599e-02;	/* 3F9664F4, 8406D637 */
-    var T4  = 8.86323982359930005737e-03;	/* 3F8226E3, E96E8493 */
-    var T5  = 3.59207910759131235356e-03;	/* 3F6D6D22, C9560328 */
-    var T6  = 1.45620945432529025516e-03;	/* 3F57DBC8, FEE08315 */
-    var T7  = 5.88041240820264096874e-04;	/* 3F4344D8, F2F26501 */
-    var T8  = 2.46463134818469906812e-04;	/* 3F3026F7, 1A8D1068 */
-    var T9  = 7.81794442939557092300e-05;	/* 3F147E88, A03792A6 */
-    var T10 = 7.14072491382608190305e-05;	/* 3F12B80F, 32F0A7E9 */
-    var T11 =-1.85586374855275456654e-05;	/* BEF375CB, DB605373 */
-    var T12 = 2.59073051863633712884e-05;	/* 3EFB2A70, 74BF7AD4 */
+    var T0  = 3.33333333333334091986e-01;       /* 3FD55555, 55555563 */
+    var T1  = 1.33333333333201242699e-01;       /* 3FC11111, 1110FE7A */
+    var T2  = 5.39682539762260521377e-02;       /* 3FABA1BA, 1BB341FE */
+    var T3  = 2.18694882948595424599e-02;       /* 3F9664F4, 8406D637 */
+    var T4  = 8.86323982359930005737e-03;       /* 3F8226E3, E96E8493 */
+    var T5  = 3.59207910759131235356e-03;       /* 3F6D6D22, C9560328 */
+    var T6  = 1.45620945432529025516e-03;       /* 3F57DBC8, FEE08315 */
+    var T7  = 5.88041240820264096874e-04;       /* 3F4344D8, F2F26501 */
+    var T8  = 2.46463134818469906812e-04;       /* 3F3026F7, 1A8D1068 */
+    var T9  = 7.81794442939557092300e-05;       /* 3F147E88, A03792A6 */
+    var T10 = 7.14072491382608190305e-05;       /* 3F12B80F, 32F0A7E9 */
+    var T11 =-1.85586374855275456654e-05;       /* BEF375CB, DB605373 */
+    var T12 = 2.59073051863633712884e-05;       /* 3EFB2A70, 74BF7AD4 */
 
     var r = T1 + w * (T3 + w * (T5 + w * (T7 + w * (T9 + w * T11))));
     var v = z * (T2 + w * (T4 + w * (T6 + w * (T8 + w * (T10 + w * T12)))));
@@ -406,11 +406,11 @@ function ieee754_rem_pio2(x)
             /* istanbul ignore if */
             if (verbose > 0)
                 console.log("Exactly equal to pi/2*" + n);
-	    if (hx < 0) {
-		return [-n, -rempi2_y0[n-1], -rempi2_y1[n-1]];
-	    } else {
-		return [n, rempi2_y0[n-1], rempi2_y1[n-1]];
-	    }
+            if (hx < 0) {
+                return [-n, -rempi2_y0[n-1], -rempi2_y1[n-1]];
+            } else {
+                return [n, rempi2_y0[n-1], rempi2_y1[n-1]];
+            }
         } else {
             j = ix >> 20;
             y0 = r - w;
@@ -427,11 +427,11 @@ function ieee754_rem_pio2(x)
                 y0 = r - w;
                 i = j - (_DoubleHi(y0) >> 20) & 0x7ff;
                 /* istanbul ignore if */
-		if (verbose > 0)
+                if (verbose > 0)
                     console.log("2nd iteration; i = " + i + "; y0 = " + y0);
                 if (i > 49) {
                     /* istanbul ignore if */
-		    if (verbose > 0)
+                    if (verbose > 0)
                         console.log("3rd iteration needed");
                     // 3rd iteration needed. 151 bits accuracy
                     t = r;
@@ -469,8 +469,8 @@ function ieee754_rem_pio2(x)
     }
     var tx = new Float64Array(3);
     for (i = 0; i < 2; i++) {
-	tx[i] = Math.floor(z);
-	z = (z - tx[i]) * 1.6777216e+07;
+        tx[i] = Math.floor(z);
+        z = (z - tx[i]) * 1.6777216e+07;
     }
     tx[2] = z;
     nx = 3;
@@ -481,7 +481,7 @@ function ieee754_rem_pio2(x)
         console.log("tx[2] = " + tx[2]);
     }
     while (tx[nx - 1] == 0)
-	--nx;
+        --nx;
     /* istanbul ignore if */
     if (verbose > 0)
         console.log("Final nx = " + nx);
@@ -504,13 +504,13 @@ function sin (x)
     var ix = _DoubleHi(x) & 0x7fffffff;
 
     if (ix <= 0x3fe921fb) {
-	// |x| < pi/4, approximately.  No reduction needed.
-	return kernel_sin(x, 0, 0);
+        // |x| < pi/4, approximately.  No reduction needed.
+        return kernel_sin(x, 0, 0);
     }
 
     if (ix >= 0x7ff00000) {
-	// sin(Inf or NaN) is NaN
-	return x - x;
+        // sin(Inf or NaN) is NaN
+        return x - x;
     }
 
     // Argument reduction needed
@@ -518,13 +518,13 @@ function sin (x)
     var n = y[0] & 3;
     switch (n) {
       case 0:
-	  return kernel_sin(y[1], y[2], 1);
+          return kernel_sin(y[1], y[2], 1);
       case 1:
-	  return kernel_cos(y[1], y[2]);
+          return kernel_cos(y[1], y[2]);
       case 2:
-	  return -kernel_sin(y[1], y[2], 1);
+          return -kernel_sin(y[1], y[2], 1);
       case 3:
-	  return -kernel_cos(y[1], y[2]);
+          return -kernel_cos(y[1], y[2]);
     }
 }
 
@@ -533,13 +533,13 @@ function cos (x)
     var ix = _DoubleHi(x) & 0x7fffffff;
 
     if (ix <= 0x3fe921fb) {
-	// |x| < pi/4, approximately.  No reduction needed.
-	return kernel_cos(x, 0);
+        // |x| < pi/4, approximately.  No reduction needed.
+        return kernel_cos(x, 0);
     }
 
     if (ix >= 0x7ff00000) {
-	// cos(Inf or NaN) is NaN
-	return x - x;
+        // cos(Inf or NaN) is NaN
+        return x - x;
     }
 
     // Argument reduction needed
@@ -547,13 +547,13 @@ function cos (x)
     var n = y[0] & 3;
     switch (n) {
       case 0:
-	  return kernel_cos(y[1], y[2]);
+          return kernel_cos(y[1], y[2]);
       case 1:
-	  return -kernel_sin(y[1], y[2], 1);
+          return -kernel_sin(y[1], y[2], 1);
       case 2:
-	  return -kernel_cos(y[1], y[2]);
+          return -kernel_cos(y[1], y[2]);
       case 3:
-	  return kernel_sin(y[1], y[2], 1);
+          return kernel_sin(y[1], y[2], 1);
     }
 }
 
@@ -563,13 +563,13 @@ function tan (x)
     var ix = _DoubleHi(x) & 0x7fffffff;
 
     if (ix <= 0x3fe921fb) {
-	// |x| < pi/4, approximately.  No reduction needed.
-	return kernel_tan(x, 0, 1);
+        // |x| < pi/4, approximately.  No reduction needed.
+        return kernel_tan(x, 0, 1);
     }
 
     if (ix >= 0x7ff00000) {
-	// tan(Inf or NaN) is NaN
-	return x - x;
+        // tan(Inf or NaN) is NaN
+        return x - x;
     }
 
     // Argument reduction needed
@@ -579,9 +579,9 @@ function tan (x)
     var flag;
 
     if ((y[0] & 1) == 0)
-	flag = 1;
+        flag = 1;
     else
-	flag = -1;
+        flag = -1;
 
     return kernel_tan(y[1], y[2], flag)
 }

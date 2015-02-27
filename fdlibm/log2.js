@@ -124,7 +124,7 @@ function log2 (x)
 //    __LO(p_h) = 0;
     p_h = _ConstructDouble(_DoubleHi(u + v), 0);
     p_l = v - (p_h - u);
-    z_h = cp_h * p_h;		// cp_h+cp_l = 2/(3*log2)
+    z_h = cp_h * p_h;           // cp_h+cp_l = 2/(3*log2)
     z_l = cp_l * p_h + p_l * cp + dp_l[k];
     // log2(ax) = (ss+..)*2/(3*log2) = n + dp_h + z_h + z_l
     var t = n;

@@ -12,19 +12,19 @@
 // __ieee754_sinh(x)
 // Method : 
 // mathematically sinh(x) if defined to be (exp(x)-exp(-x))/2
-//	1. Replace x by |x| (sinh(-x) = -sinh(x)). 
-//	2. 
-//		                                    E + E/(E+1)
-//	    0        <= x <= 22     :  sinh(x) := --------------, E=expm1(x)
-//			       			        2
+//      1. Replace x by |x| (sinh(-x) = -sinh(x)). 
+//      2. 
+//                                                  E + E/(E+1)
+//          0        <= x <= 22     :  sinh(x) := --------------, E=expm1(x)
+//                                                      2
 //
-//	    22       <= x <= lnovft :  sinh(x) := exp(x)/2 
-//	    lnovft   <= x <= ln2ovft:  sinh(x) := exp(x/2)/2 * exp(x/2)
-//	    ln2ovft  <  x	    :  sinh(x) := x*shuge (overflow)
+//          22       <= x <= lnovft :  sinh(x) := exp(x)/2 
+//          lnovft   <= x <= ln2ovft:  sinh(x) := exp(x/2)/2 * exp(x/2)
+//          ln2ovft  <  x           :  sinh(x) := x*shuge (overflow)
 //
 // Special cases:
-//	sinh(x) is |x| if x is +INF, -INF, or NaN.
-//	only sinh(0)=0 is exact for finite x.
+//      sinh(x) is |x| if x is +INF, -INF, or NaN.
+//      only sinh(0)=0 is exact for finite x.
 //
 
 function sinh (x) {

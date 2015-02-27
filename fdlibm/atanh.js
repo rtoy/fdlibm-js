@@ -15,16 +15,16 @@
 //    1.Reduced x to positive by atanh(-x) = -atanh(x)
 //    2.For x>=0.5
 //                  1              2x                          x
-//	atanh(x) = --- * log(1 + -------) = 0.5 * log1p(2 * --------)
+//      atanh(x) = --- * log(1 + -------) = 0.5 * log1p(2 * --------)
 //                  2             1 - x                      1 - x
-//	
-// 	For x<0.5
-//	atanh(x) = 0.5*log1p(2x+2x*x/(1-x))
+//      
+//      For x<0.5
+//      atanh(x) = 0.5*log1p(2x+2x*x/(1-x))
 //
 // Special cases:
-//	atanh(x) is NaN if |x| > 1 with signal;
-//	atanh(NaN) is that NaN with no signal;
-//	atanh(+-1) is +-INF with signal.
+//      atanh(x) is NaN if |x| > 1 with signal;
+//      atanh(NaN) is that NaN with no signal;
+//      atanh(+-1) is +-INF with signal.
 //
 //
 
