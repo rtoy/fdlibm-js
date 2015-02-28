@@ -1,0 +1,1153 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for fdlibm/expm1.js</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="../prettify.css">
+
+    <style>
+        body, html {
+            margin:0; padding: 0;
+        }
+        body {
+            font-family: Helvetica Neue, Helvetica,Arial;
+            font-size: 10pt;
+        }
+        div.header, div.footer {
+            background: #eee;
+            padding: 1em;
+        }
+        div.header {
+            z-index: 100;
+            position: fixed;
+            top: 0;
+            border-bottom: 1px solid #666;
+            width: 100%;
+        }
+        div.footer {
+            border-top: 1px solid #666;
+        }
+        div.body {
+            margin-top: 10em;
+        }
+        div.meta {
+            font-size: 90%;
+            text-align: center;
+        }
+        h1, h2, h3 {
+            font-weight: normal;
+        }
+        h1 {
+            font-size: 12pt;
+        }
+        h2 {
+            font-size: 10pt;
+        }
+        pre {
+            font-family: Consolas, Menlo, Monaco, monospace;
+            margin: 0;
+            padding: 0;
+            line-height: 14px;
+            font-size: 14px;
+            -moz-tab-size: 2;
+            -o-tab-size:  2;
+            tab-size: 2;
+        }
+
+        div.path { font-size: 110%; }
+        div.path a:link, div.path a:visited { color: #000; }
+        table.coverage { border-collapse: collapse; margin:0; padding: 0 }
+
+        table.coverage td {
+            margin: 0;
+            padding: 0;
+            color: #111;
+            vertical-align: top;
+        }
+        table.coverage td.line-count {
+            width: 50px;
+            text-align: right;
+            padding-right: 5px;
+        }
+        table.coverage td.line-coverage {
+            color: #777 !important;
+            text-align: right;
+            border-left: 1px solid #666;
+            border-right: 1px solid #666;
+        }
+
+        table.coverage td.text {
+        }
+
+        table.coverage td span.cline-any {
+            display: inline-block;
+            padding: 0 5px;
+            width: 40px;
+        }
+        table.coverage td span.cline-neutral {
+            background: #eee;
+        }
+        table.coverage td span.cline-yes {
+            background: #b5d592;
+            color: #999;
+        }
+        table.coverage td span.cline-no {
+            background: #fc8c84;
+        }
+
+        .cstat-yes { color: #111; }
+        .cstat-no { background: #fc8c84; color: #111; }
+        .fstat-no { background: #ffc520; color: #111 !important; }
+        .cbranch-no { background:  yellow !important; color: #111; }
+
+        .cstat-skip { background: #ddd; color: #111; }
+        .fstat-skip { background: #ddd; color: #111 !important; }
+        .cbranch-skip { background: #ddd !important; color: #111; }
+
+        .missing-if-branch {
+            display: inline-block;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: black;
+            color: yellow;
+        }
+
+        .skip-if-branch {
+            display: none;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: #ccc;
+            color: white;
+        }
+
+        .missing-if-branch .typ, .skip-if-branch .typ {
+            color: inherit !important;
+        }
+
+        .entity, .metric { font-weight: bold; }
+        .metric { display: inline-block; border: 1px solid #333; padding: 0.3em; background: white; }
+        .metric small { font-size: 80%; font-weight: normal; color: #666; }
+
+        div.coverage-summary table { border-collapse: collapse; margin: 3em; font-size: 110%; }
+        div.coverage-summary td, div.coverage-summary table  th { margin: 0; padding: 0.25em 1em; border-top: 1px solid #666; border-bottom: 1px solid #666; }
+        div.coverage-summary th { text-align: left; border: 1px solid #666; background: #eee; font-weight: normal; }
+        div.coverage-summary th.file { border-right: none !important; }
+        div.coverage-summary th.pic { border-left: none !important; text-align: right; }
+        div.coverage-summary th.pct { border-right: none !important; }
+        div.coverage-summary th.abs { border-left: none !important; text-align: right; }
+        div.coverage-summary td.pct { text-align: right; border-left: 1px solid #666; }
+        div.coverage-summary td.abs { text-align: right; font-size: 90%; color: #444; border-right: 1px solid #666; }
+        div.coverage-summary td.file { text-align: right; border-left: 1px solid #666; white-space: nowrap;  }
+        div.coverage-summary td.pic { min-width: 120px !important;  }
+        div.coverage-summary a:link { text-decoration: none; color: #000; }
+        div.coverage-summary a:visited { text-decoration: none; color: #333; }
+        div.coverage-summary a:hover { text-decoration: underline; }
+        div.coverage-summary tfoot td { border-top: 1px solid #666; }
+
+        div.coverage-summary .yui3-datatable-sort-indicator, div.coverage-summary .dummy-sort-indicator {
+            height: 10px;
+            width: 7px;
+            display: inline-block;
+            margin-left: 0.5em;
+        }
+        div.coverage-summary .yui3-datatable-sort-indicator {
+            background: url("http://yui.yahooapis.com/3.6.0/build/datatable-sort/assets/skins/sam/sort-arrow-sprite.png") no-repeat scroll 0 0 transparent;
+        }
+        div.coverage-summary .yui3-datatable-sorted .yui3-datatable-sort-indicator {
+            background-position: 0 -20px;
+        }
+        div.coverage-summary .yui3-datatable-sorted-desc .yui3-datatable-sort-indicator {
+            background-position: 0 -10px;
+        }
+
+        .high { background: #b5d592 !important; }
+        .medium { background: #ffe87c !important; }
+        .low { background: #fc8c84 !important; }
+
+        span.cover-fill, span.cover-empty {
+            display:inline-block;
+            border:1px solid #444;
+            background: white;
+            height: 12px;
+        }
+        span.cover-fill {
+            background: #ccc;
+            border-right: 1px solid #444;
+        }
+        span.cover-empty {
+            background: white;
+            border-left: none;
+        }
+        span.cover-full {
+            border-right: none !important;
+        }
+        pre.prettyprint {
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .com { color: #999 !important; }
+        .ignore-none { color: #999; font-weight: normal; }
+
+    </style>
+</head>
+<body>
+<div class="header high">
+    <h1>Code coverage report for <span class="entity">fdlibm/expm1.js</span></h1>
+    <h2>
+        
+        Statements: <span class="metric">100% <small>(102 / 102)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Branches: <span class="metric">100% <small>(62 / 62)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Functions: <span class="metric">100% <small>(1 / 1)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Lines: <span class="metric">100% <small>(102 / 102)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        Ignored: <span class="metric">10 statements, 11 branches</span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">fdlibm/</a> &#187; expm1.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">718</span>
+<span class="cline-any cline-yes">718</span>
+<span class="cline-any cline-yes">718</span>
+<span class="cline-any cline-yes">718</span>
+<span class="cline-any cline-yes">718</span>
+<span class="cline-any cline-yes">718</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">718</span>
+<span class="cline-any cline-yes">718</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">718</span>
+<span class="cline-any cline-yes">707</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">718</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">718</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">718</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">710</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">710</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">647</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">647</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">17</span>
+<span class="cline-any cline-yes">17</span>
+<span class="cline-any cline-yes">17</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">628</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">628</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">628</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">628</span>
+<span class="cline-any cline-yes">628</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">647</span>
+<span class="cline-any cline-yes">647</span>
+<span class="cline-any cline-yes">63</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">57</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">57</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">704</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">704</span>
+<span class="cline-any cline-yes">704</span>
+<span class="cline-any cline-yes">704</span>
+<span class="cline-any cline-yes">704</span>
+<span class="cline-any cline-yes">704</span>
+<span class="cline-any cline-yes">704</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">57</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">647</span>
+<span class="cline-any cline-yes">647</span>
+<span class="cline-any cline-yes">647</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">645</span>
+<span class="cline-any cline-yes">17</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">628</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">623</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">524</span>
+<span class="cline-any cline-yes">524</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">524</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">99</span>
+<span class="cline-any cline-yes">99</span>
+<span class="cline-any cline-yes">99</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">99</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">623</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">//
+// ====================================================
+// Copyright (C) 2004 by Sun Microsystems, Inc. All rights reserved.
+//
+// Permission to use, copy, modify, and distribute this
+// software is freely granted, provided that this notice 
+// is preserved.
+// ====================================================
+//
+&nbsp;
+// Translated to Javascript by Raymond Toy (rtoy@google.com)
+&nbsp;
+// expm1(x)
+// Returns exp(x)-1, the exponential of x minus 1.
+//
+// Method
+//   1. Argument reduction:
+//      Given x, find r and integer k such that
+//
+//               x = k*ln2 + r,  |r| &lt;= 0.5*ln2 ~ 0.34658  
+//
+//      Here a correction term c will be computed to compensate 
+//      the error in r when rounded to a floating-point number.
+//
+//   2. Approximating expm1(r) by a special rational function on
+//      the interval [0,0.34658]:
+//      Since
+//          r*(exp(r)+1)/(exp(r)-1) = 2+ r^2/6 - r^4/360 + ...
+//      we define R1(r*r) by
+//          r*(exp(r)+1)/(exp(r)-1) = 2+ r^2/6 * R1(r*r)
+//      That is,
+//          R1(r**2) = 6/r *((exp(r)+1)/(exp(r)-1) - 2/r)
+//                   = 6/r * ( 1 + 2.0*(1/(exp(r)-1) - 1/r))
+//                   = 1 - r^2/60 + r^4/2520 - r^6/100800 + ...
+//      We use a special Remes algorithm on [0,0.347] to generate 
+//      a polynomial of degree 5 in r*r to approximate R1. The 
+//      maximum error of this polynomial approximation is bounded 
+//      by 2**-61. In other words,
+//          R1(z) ~ 1.0 + Q1*z + Q2*z**2 + Q3*z**3 + Q4*z**4 + Q5*z**5
+//      where   Q1  =  -1.6666666666666567384E-2,
+//              Q2  =   3.9682539681370365873E-4,
+//              Q3  =  -9.9206344733435987357E-6,
+//              Q4  =   2.5051361420808517002E-7,
+//              Q5  =  -6.2843505682382617102E-9;
+//      (where z=r*r, and the values of Q1 to Q5 are listed below)
+//      with error bounded by
+//          |                  5           |     -61
+//          | 1.0+Q1*z+...+Q5*z   -  R1(z) | &lt;= 2 
+//          |                              |
+//      
+//      expm1(r) = exp(r)-1 is then computed by the following 
+//      specific way which minimize the accumulation rounding error: 
+//                             2     3
+//                            r     r    [ 3 - (R1 + R1*r/2)  ]
+//            expm1(r) = r + --- + --- * [--------------------]
+//                            2     2    [ 6 - r*(3 - R1*r/2) ]
+//      
+//      To compensate the error in the argument reduction, we use
+//              expm1(r+c) = expm1(r) + c + expm1(r)*c 
+//                         ~ expm1(r) + c + r*c 
+//      Thus c+r*c will be added in as the correction terms for
+//      expm1(r+c). Now rearrange the term to avoid optimization 
+//      screw up:
+//                      (      2                                    2 )
+//                      ({  ( r    [ R1 -  (3 - R1*r/2) ]  )  }    r  )
+//       expm1(r+c)~r - ({r*(--- * [--------------------]-c)-c} - --- )
+//                      ({  ( 2    [ 6 - r*(3 - R1*r/2) ]  )  }    2  )
+//                      (                                             )
+//      
+//                 = r - E
+//   3. Scale back to obtain expm1(x):
+//      From step 1, we have
+//         expm1(x) = either 2^k*[expm1(r)+1] - 1
+//                  = or     2^k*[expm1(r) + (1-2^-k)]
+//   4. Implementation notes:
+//      (A). To save one multiplication, we scale the coefficient Qi
+//           to Qi*2^i, and replace z by (x^2)/2.
+//      (B). To achieve maximum accuracy, we compute expm1(x) by
+//        (i)   if x &lt; -56*ln2, return -1.0, (raise inexact if x!=inf)
+//        (ii)  if k=0, return r-E
+//        (iii) if k=-1, return 0.5*(r-E)-0.5
+//        (iv)  if k=1 if r &lt; -0.25, return 2*((r+0.5)- E)
+//                     else          return  1.0+2.0*(r-E);
+//        (v)   if (k&lt;-2||k&gt;56) return 2^k(1-(E-r)) - 1 (or exp(x)-1)
+//        (vi)  if k &lt;= 20, return 2^k((1-2^-k)-(E-r)), else
+//        (vii) return 2^k(1-((E+2^-k)-r)) 
+//
+// Special cases:
+//      expm1(INF) is INF, expm1(NaN) is NaN;
+//      expm1(-INF) is -1, and
+//      for finite argument, only expm1(0)=0 is exact.
+//
+// Accuracy:
+//      according to an error analysis, the error is always less than
+//      1 ulp (unit in the last place).
+//
+// Misc. info.
+//      For IEEE double 
+//          if x &gt;  7.09782712893383973096e+02 then expm1(x) overflow
+//
+// Constants:
+// The hexadecimal values are the intended ones for the following 
+// constants. The decimal values may be used, provided that the 
+// compiler will convert from decimal to binary accurately enough
+// to produce the hexadecimal values shown.
+&nbsp;
+var huge = 1e300;
+var tiny = 1e-300;
+var o_threshold = 7.09782712893383973096e+02; //  0x40862E42, 0xFEFA39EF 
+var ln2_hi      = 6.93147180369123816490e-01; //  0x3fe62e42, 0xfee00000 
+var ln2_lo      = 1.90821492927058770002e-10; //  0x3dea39ef, 0x35793c76 
+var invln2      = 1.44269504088896338700e+00; //  0x3ff71547, 0x652b82fe 
+&nbsp;
+//  scaled coefficients related to expm1 
+var Q1  =  -3.33333333333331316428e-02; //  BFA11111 111110F4 
+var Q2  =   1.58730158725481460165e-03; //  3F5A01A0 19FE5585 
+var Q3  =  -7.93650757867487942473e-05; //  BF14CE19 9EAADBB7 
+var Q4  =   4.00821782732936239552e-06; //  3ED0CFCA 86E65239 
+var Q5  =  -2.01099218183624371326e-07; //  BE8AFDB7 6E09C32D 
+&nbsp;
+function expm1(x)
+{
+    var y;
+    var hi;
+    var lo;
+    var k;
+    var t;
+    var c;
+    
+    var hx = _DoubleHi(x);
+    var xsb = hx &amp; 0x80000000;  // sign bit of x
+    // y = |x|
+    if (xsb == 0)
+        y = x;
+    else
+        y = -x;
+    hx &amp;= 0x7fffffff;           // High word of |x|
+&nbsp;
+    // Filter out huge and non-finite argument
+    /* istanbul ignore if */
+    <span class="skip-if-branch" title="if path not taken" >I</span>if (verbose &gt; 0)
+<span class="cstat-skip" title="statement not covered" >        console.log("hx = " + hx);</span>
+    if (hx &gt;= 0x4043687a) {     // if |x| ~=&gt; 56*ln2
+        if (hx &gt;= 0x40862e42) { // if |x| &gt;= 709.78
+            if (hx &gt;= 0x7ff00000) {
+                if (((hx &amp; 0xfffff) | _DoubleLo(x)) != 0) {
+                    // NaN
+                    return x + x;
+                } else {
+                    // expm1(inf) = inf; expm1(-inf) = -1
+                    return xsb == 0 ? x : -1.0;
+                }
+            }
+            if (x &gt; o_threshold) {
+                // Overflow
+                return huge * huge;
+            }
+        }
+        if (xsb != 0) {
+            // x &lt; -56*ln2 so return -1, with inexact. For Javascript,
+            // we can probably skip the stuff to set the inexact flag
+            // and just return -1.
+&nbsp;
+            // I don't think the else case is ever reachable because x
+            // &lt; -38 and tiny = 1e300 so x + tiny &lt; 0 always.  JS
+            // doesn't have an inexact, so maybe just delete the if
+            // test?
+            /* istanbul ignore else */
+            <span class="skip-if-branch" title="else path not taken" >E</span>if (x + tiny &lt; 0)   // This raises inexact.
+                return tiny - 1;
+        }
+    }
+&nbsp;
+    // Argument  reduction
+    /* istanbul ignore if */
+    <span class="skip-if-branch" title="if path not taken" >I</span>if (verbose &gt; 0)
+<span class="cstat-skip" title="statement not covered" >        console.log("Arg reduction");</span>
+    if (hx &gt; 0x3fd62e42) {      // if |x| &gt; 0.5 * ln2
+        /* istanbul ignore if */
+        <span class="skip-if-branch" title="if path not taken" >I</span>if (verbose &gt; 0)
+<span class="cstat-skip" title="statement not covered" >            console.log("hx &gt; 0.5*log2");</span>
+        if (hx &lt; 0x3ff0a2b2) {  // and |x| &lt; 1.5 * ln2
+            /* istanbul ignore if */
+            <span class="skip-if-branch" title="if path not taken" >I</span>if (verbose &gt; 0)
+<span class="cstat-skip" title="statement not covered" >                console.log("hx &lt; 1.5 * log2");</span>
+            if (xsb == 0) {
+                hi = x - ln2_hi;
+                lo = ln2_lo;
+                k = 1;
+            } else {
+                hi = x + ln2_hi;
+                lo = -ln2_lo;
+                k = -1;
+            }
+        } else {
+            // k = (invln2 * x + ((xsb == 0) ? 0.5 : -0.5));
+            k = (invln2 * x + ((xsb == 0) ? 0.5 : -0.5)) | 0;
+            /* istanbul ignore if */
+            <span class="skip-if-branch" title="if path not taken" >I</span>if (verbose &gt; 0)
+<span class="cstat-skip" title="statement not covered" >                console.log("invln2*x, k = " + (invln2*x) + ", " + k);</span>
+            t = k;
+            // t*ln2_hi is exact here.
+            hi = x - t * ln2_hi;
+            lo = t * ln2_lo;
+        }
+        x = hi - lo;
+        c = (hi - x) - lo;
+    } else if (hx &lt; 0x3c900000) {
+        // When |x| &lt; 2^-54, we can // return x, setting inexact flags
+        // when x != 0. The inexact stuff is probably not needed in
+        // Javascript.
+        /* istanbul ignore if */
+        <span class="skip-if-branch" title="if path not taken" >I</span>if (verbose &gt; 0)
+<span class="cstat-skip" title="statement not covered" >            console.log("hx &lt;  0x3c900000");</span>
+        t = huge + x;
+        return x - (t - (huge + x));
+    } else {
+        /* istanbul ignore if */
+        <span class="skip-if-branch" title="if path not taken" >I</span>if (verbose &gt; 0)
+<span class="cstat-skip" title="statement not covered" >            console.log("Fall through");</span>
+        k = 0;
+    }
+&nbsp;
+    // x is now in primary range
+    /* istanbul ignore if */
+    <span class="skip-if-branch" title="if path not taken" >I</span>if (verbose &gt; 0)
+<span class="cstat-skip" title="statement not covered" >        console.log("In range, k = " + k);</span>
+    var hfx = 0.5 * x;
+    var hxs = x * hfx;
+    var r1 = 1 + hxs * (Q1 + hxs * (Q2 + hxs * (Q3 + hxs * (Q4 + hxs * Q5))));
+    t = 3 - r1 * hfx;
+    var e = hxs * ((r1 - t) / (6 - x*t));
+    if (k == 0) {
+        // c is 0
+        return x - (x*e - hxs);
+    } else {
+        e = (x * (e - c) - c);
+        e -= hxs;
+        if (k == -1)
+            return 0.5 * (x - e) - 0.5;
+        if (k == 1) {
+            if (x &lt; -0.25)
+                return -2 * (e - (x + 0.5));
+            else
+                return 1 + 2 * (x - e);
+        }
+&nbsp;
+        if (k &lt;= -2 || k &gt; 56) {
+            /* istanbul ignore if */
+            <span class="skip-if-branch" title="if path not taken" >I</span>if (verbose &gt; 0)
+<span class="cstat-skip" title="statement not covered" >                console.log("k &lt;= -2 || k &gt; 56: k = " + k);</span>
+            // suffice to return exp(x)+1
+            y = 1 - (e - x);
+            // Add k to y's exponent
+            y = _ConstructDouble(_DoubleHi(y) + (k &lt;&lt; 20), _DoubleLo(y));
+            /* istanbul ignore if */
+            <span class="skip-if-branch" title="if path not taken" >I</span>if (verbose &gt; 0)
+<span class="cstat-skip" title="statement not covered" >                console.log("New y = " + y + ", result = " + (y - 1));</span>
+            return y - 1;
+        }
+        if (k &lt; 20) {
+            // t = 1 - 2^k
+            t = _ConstructDouble(0x3ff00000 - (0x200000 &gt;&gt; k), 0);
+            y = t - (e - x);
+            // Add k to y's exponent
+            y = _ConstructDouble(_DoubleHi(y) + (k &lt;&lt; 20), _DoubleLo(y));
+        } else {
+            // t = 2^-k
+            t = _ConstructDouble((0x3ff - k) &lt;&lt; 20, 0);
+            y = x - (e + t);
+            y += 1;
+            // Add k to y's exponent
+            y = _ConstructDouble(_DoubleHi(y) + (k &lt;&lt; 20), _DoubleLo(y));
+        }
+    }
+    return y;
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Feb 27 2015 16:07:02 GMT-0800 (PST)</div>
+</div>
+
+<script src="../prettify.js"></script>
+
+<script src="http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js"></script>
+<script>
+
+    YUI().use('datatable', function (Y) {
+
+        var formatters = {
+          pct: function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              try {
+                  return o.value.toFixed(2) + '%';
+              } catch (ex) { return o.value + '%'; }
+          },
+          html: function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              return o.record.get(o.column.key + '_html');
+          }
+        },
+          defaultFormatter = function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              return o.value;
+          };
+
+        function getColumns(theadNode) {
+            var colNodes = theadNode.all('tr th'),
+                cols = [],
+                col;
+            colNodes.each(function (colNode) {
+                col = {
+                    key: colNode.getAttribute('data-col'),
+                    label: colNode.get('innerHTML') || ' ',
+                    sortable: !colNode.getAttribute('data-nosort'),
+                    className: colNode.getAttribute('class'),
+                    type: colNode.getAttribute('data-type'),
+                    allowHTML: colNode.getAttribute('data-html') === 'true' || colNode.getAttribute('data-fmt') === 'html'
+                };
+                col.formatter = formatters[colNode.getAttribute('data-fmt')] || defaultFormatter;
+                cols.push(col);
+            });
+            return cols;
+        }
+
+        function getRowData(trNode, cols) {
+            var tdNodes = trNode.all('td'),
+                    i,
+                    row = { classes: {} },
+                    node,
+                    name;
+            for (i = 0; i < cols.length; i += 1) {
+                name = cols[i].key;
+                node = tdNodes.item(i);
+                row[name] = node.getAttribute('data-value') || node.get('innerHTML');
+                row[name + '_html'] = node.get('innerHTML');
+                row.classes[name] = node.getAttribute('class');
+                //Y.log('Name: ' + name + '; Value: ' + row[name]);
+                if (cols[i].type === 'number') { row[name] = row[name] * 1; }
+            }
+            //Y.log(row);
+            return row;
+        }
+
+        function getData(tbodyNode, cols) {
+            var data = [];
+            tbodyNode.all('tr').each(function (trNode) {
+                data.push(getRowData(trNode, cols));
+            });
+            return data;
+        }
+
+        function replaceTable(node) {
+            if (!node) { return; }
+            var cols = getColumns(node.one('thead')),
+                data = getData(node.one('tbody'), cols),
+                table,
+                parent = node.get('parentNode');
+
+            table = new Y.DataTable({
+                columns: cols,
+                data: data,
+                sortBy: 'file'
+            });
+            parent.set('innerHTML', '');
+            table.render(parent);
+        }
+
+        Y.on('domready', function () {
+            replaceTable(Y.one('div.coverage-summary table'));
+            if (typeof prettyPrint === 'function') {
+                prettyPrint();
+            }
+        });
+    });
+</script>
+</body>
+</html>

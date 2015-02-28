@@ -1,0 +1,2083 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for fdlibm/kernel-trig.js</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="../prettify.css">
+
+    <style>
+        body, html {
+            margin:0; padding: 0;
+        }
+        body {
+            font-family: Helvetica Neue, Helvetica,Arial;
+            font-size: 10pt;
+        }
+        div.header, div.footer {
+            background: #eee;
+            padding: 1em;
+        }
+        div.header {
+            z-index: 100;
+            position: fixed;
+            top: 0;
+            border-bottom: 1px solid #666;
+            width: 100%;
+        }
+        div.footer {
+            border-top: 1px solid #666;
+        }
+        div.body {
+            margin-top: 10em;
+        }
+        div.meta {
+            font-size: 90%;
+            text-align: center;
+        }
+        h1, h2, h3 {
+            font-weight: normal;
+        }
+        h1 {
+            font-size: 12pt;
+        }
+        h2 {
+            font-size: 10pt;
+        }
+        pre {
+            font-family: Consolas, Menlo, Monaco, monospace;
+            margin: 0;
+            padding: 0;
+            line-height: 14px;
+            font-size: 14px;
+            -moz-tab-size: 2;
+            -o-tab-size:  2;
+            tab-size: 2;
+        }
+
+        div.path { font-size: 110%; }
+        div.path a:link, div.path a:visited { color: #000; }
+        table.coverage { border-collapse: collapse; margin:0; padding: 0 }
+
+        table.coverage td {
+            margin: 0;
+            padding: 0;
+            color: #111;
+            vertical-align: top;
+        }
+        table.coverage td.line-count {
+            width: 50px;
+            text-align: right;
+            padding-right: 5px;
+        }
+        table.coverage td.line-coverage {
+            color: #777 !important;
+            text-align: right;
+            border-left: 1px solid #666;
+            border-right: 1px solid #666;
+        }
+
+        table.coverage td.text {
+        }
+
+        table.coverage td span.cline-any {
+            display: inline-block;
+            padding: 0 5px;
+            width: 40px;
+        }
+        table.coverage td span.cline-neutral {
+            background: #eee;
+        }
+        table.coverage td span.cline-yes {
+            background: #b5d592;
+            color: #999;
+        }
+        table.coverage td span.cline-no {
+            background: #fc8c84;
+        }
+
+        .cstat-yes { color: #111; }
+        .cstat-no { background: #fc8c84; color: #111; }
+        .fstat-no { background: #ffc520; color: #111 !important; }
+        .cbranch-no { background:  yellow !important; color: #111; }
+
+        .cstat-skip { background: #ddd; color: #111; }
+        .fstat-skip { background: #ddd; color: #111 !important; }
+        .cbranch-skip { background: #ddd !important; color: #111; }
+
+        .missing-if-branch {
+            display: inline-block;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: black;
+            color: yellow;
+        }
+
+        .skip-if-branch {
+            display: none;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: #ccc;
+            color: white;
+        }
+
+        .missing-if-branch .typ, .skip-if-branch .typ {
+            color: inherit !important;
+        }
+
+        .entity, .metric { font-weight: bold; }
+        .metric { display: inline-block; border: 1px solid #333; padding: 0.3em; background: white; }
+        .metric small { font-size: 80%; font-weight: normal; color: #666; }
+
+        div.coverage-summary table { border-collapse: collapse; margin: 3em; font-size: 110%; }
+        div.coverage-summary td, div.coverage-summary table  th { margin: 0; padding: 0.25em 1em; border-top: 1px solid #666; border-bottom: 1px solid #666; }
+        div.coverage-summary th { text-align: left; border: 1px solid #666; background: #eee; font-weight: normal; }
+        div.coverage-summary th.file { border-right: none !important; }
+        div.coverage-summary th.pic { border-left: none !important; text-align: right; }
+        div.coverage-summary th.pct { border-right: none !important; }
+        div.coverage-summary th.abs { border-left: none !important; text-align: right; }
+        div.coverage-summary td.pct { text-align: right; border-left: 1px solid #666; }
+        div.coverage-summary td.abs { text-align: right; font-size: 90%; color: #444; border-right: 1px solid #666; }
+        div.coverage-summary td.file { text-align: right; border-left: 1px solid #666; white-space: nowrap;  }
+        div.coverage-summary td.pic { min-width: 120px !important;  }
+        div.coverage-summary a:link { text-decoration: none; color: #000; }
+        div.coverage-summary a:visited { text-decoration: none; color: #333; }
+        div.coverage-summary a:hover { text-decoration: underline; }
+        div.coverage-summary tfoot td { border-top: 1px solid #666; }
+
+        div.coverage-summary .yui3-datatable-sort-indicator, div.coverage-summary .dummy-sort-indicator {
+            height: 10px;
+            width: 7px;
+            display: inline-block;
+            margin-left: 0.5em;
+        }
+        div.coverage-summary .yui3-datatable-sort-indicator {
+            background: url("http://yui.yahooapis.com/3.6.0/build/datatable-sort/assets/skins/sam/sort-arrow-sprite.png") no-repeat scroll 0 0 transparent;
+        }
+        div.coverage-summary .yui3-datatable-sorted .yui3-datatable-sort-indicator {
+            background-position: 0 -20px;
+        }
+        div.coverage-summary .yui3-datatable-sorted-desc .yui3-datatable-sort-indicator {
+            background-position: 0 -10px;
+        }
+
+        .high { background: #b5d592 !important; }
+        .medium { background: #ffe87c !important; }
+        .low { background: #fc8c84 !important; }
+
+        span.cover-fill, span.cover-empty {
+            display:inline-block;
+            border:1px solid #444;
+            background: white;
+            height: 12px;
+        }
+        span.cover-fill {
+            background: #ccc;
+            border-right: 1px solid #444;
+        }
+        span.cover-empty {
+            background: white;
+            border-left: none;
+        }
+        span.cover-full {
+            border-right: none !important;
+        }
+        pre.prettyprint {
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .com { color: #999 !important; }
+        .ignore-none { color: #999; font-weight: normal; }
+
+    </style>
+</head>
+<body>
+<div class="header high">
+    <h1>Code coverage report for <span class="entity">fdlibm/kernel-trig.js</span></h1>
+    <h2>
+        
+        Statements: <span class="metric">100% <small>(243 / 243)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Branches: <span class="metric">100% <small>(98 / 98)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Functions: <span class="metric">100% <small>(7 / 7)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Lines: <span class="metric">100% <small>(243 / 243)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        Ignored: <span class="metric">14 statements, 10 branches</span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">fdlibm/</a> &#187; kernel-trig.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18</span>
+<span class="cline-any cline-yes">18</span>
+<span class="cline-any cline-yes">18</span>
+<span class="cline-any cline-yes">18</span>
+<span class="cline-any cline-yes">18</span>
+<span class="cline-any cline-yes">18</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22</span>
+<span class="cline-any cline-yes">22</span>
+<span class="cline-any cline-yes">22</span>
+<span class="cline-any cline-yes">22</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">91</span>
+<span class="cline-any cline-yes">91</span>
+<span class="cline-any cline-yes">91</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">91</span>
+<span class="cline-any cline-yes">91</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">91</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">89</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">76</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">65</span>
+<span class="cline-any cline-yes">65</span>
+<span class="cline-any cline-yes">65</span>
+<span class="cline-any cline-yes">65</span>
+<span class="cline-any cline-yes">65</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">65</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">50</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">21</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29</span>
+<span class="cline-any cline-yes">29</span>
+<span class="cline-any cline-yes">29</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">29</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27</span>
+<span class="cline-any cline-yes">27</span>
+<span class="cline-any cline-yes">27</span>
+<span class="cline-any cline-yes">27</span>
+<span class="cline-any cline-yes">27</span>
+<span class="cline-any cline-yes">27</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">27</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21</span>
+<span class="cline-any cline-yes">21</span>
+<span class="cline-any cline-yes">21</span>
+<span class="cline-any cline-yes">21</span>
+<span class="cline-any cline-yes">21</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">44</span>
+<span class="cline-any cline-yes">44</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">16</span>
+<span class="cline-any cline-yes">16</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// A straightforward translation of fdlibm routines for sin, cos, and
+// tan, by Raymond Toy (rtoy@google.com).
+&nbsp;
+// __kernel_sin( x, y, iy)
+// kernel sin function on [-pi/4, pi/4], pi/4 ~ 0.7854
+// Input x is assumed to be bounded by ~pi/4 in magnitude.
+// Input y is the tail of x.
+// Input iy indicates whether y is 0. (if iy=0, y assume to be 0). 
+//
+// Algorithm
+//      1. Since ieee_sin(-x) = -ieee_sin(x), we need only to consider positive x. 
+//      2. if x &lt; 2^-27 (hx&lt;0x3e400000 0), return x with inexact if x!=0.
+//      3. ieee_sin(x) is approximated by a polynomial of degree 13 on
+//         [0,pi/4]
+//                               3            13
+//              sin(x) ~ x + S1*x + ... + S6*x
+//         where
+//      
+//      |ieee_sin(x)         2     4     6     8     10     12  |     -58
+//      |----- - (1+S1*x +S2*x +S3*x +S4*x +S5*x  +S6*x   )| &lt;= 2
+//      |  x                                               | 
+// 
+//      4. ieee_sin(x+y) = ieee_sin(x) + sin'(x')*y
+//                  ~ ieee_sin(x) + (1-x*x/2)*y
+//         For better accuracy, let 
+//                   3      2      2      2      2
+//              r = x *(S2+x *(S3+x *(S4+x *(S5+x *S6))))
+//         then                   3    2
+//              sin(x) = x + (S1*x + (x *(r-y/2)+y))
+///
+function kernel_sin(x, y, yNotZero)
+{
+    var S1  = -1.66666666666666324348e-01; // 0xBFC55555, 0x55555549
+    var S2  =  8.33333333332248946124e-03; // 0x3F811111, 0x1110F8A6
+    var S3  = -1.98412698298579493134e-04; // 0xBF2A01A0, 0x19C161D5
+    var S4  =  2.75573137070700676789e-06; // 0x3EC71DE3, 0x57B1FE7D
+    var S5  = -2.50507602534068634195e-08; // 0xBE5AE5E6, 0x8A2B9CEB
+    var S6  =  1.58969099521155010221e-10; // 0x3DE5D93A, 0x5ACFD57C
+&nbsp;
+    // fdlibm had ix &lt; 0x3e400000.  This is the same as abs(x) &lt;
+    // 7.450587702351184d-9, where this constant is 0x3e400000
+    // 0xffffffff.
+    if (Math.abs(x) &lt; 7.450587702351184e-9) {
+        // We do not implement the part about signaling inexact when x is small.
+        return x;
+    }
+&nbsp;
+    var z = x*x;
+    var v = z*x;
+    var r = S2+z*(S3+z*(S4+z*(S5+z*S6)));
+    if (!yNotZero) {
+        return x+v*(S1+z*r);
+    } else {
+        return x-((z*(0.5*y-v*r)-y)-v*S1);
+    }
+}
+&nbsp;
+// __kernel_cos( x,  y )
+// kernel cos function on [-pi/4, pi/4], pi/4 ~ 0.785398164
+// Input x is assumed to be bounded by ~pi/4 in magnitude.
+// Input y is the tail of x. 
+//
+// Algorithm
+//      1. Since ieee_cos(-x) = ieee_cos(x), we need only to consider positive x.
+//      2. if x &lt; 2^-27 (hx&lt;0x3e400000 0), return 1 with inexact if x!=0.
+//      3. ieee_cos(x) is approximated by a polynomial of degree 14 on
+//         [0,pi/4]
+//                                       4            14
+//              cos(x) ~ 1 - x*x/2 + C1*x + ... + C6*x
+//         where the remez error is
+//      
+//      |              2     4     6     8     10    12     14 |     -58
+//      |ieee_cos(x)-(1-.5*x +C1*x +C2*x +C3*x +C4*x +C5*x  +C6*x  )| &lt;= 2
+//      |                                                      | 
+// 
+//                     4     6     8     10    12     14 
+//      4. let r = C1*x +C2*x +C3*x +C4*x +C5*x  +C6*x  , then
+//             ieee_cos(x) = 1 - x*x/2 + r
+//         since ieee_cos(x+y) ~ ieee_cos(x) - ieee_sin(x)*y 
+//                        ~ ieee_cos(x) - x*y,
+//         a correction term is necessary in ieee_cos(x) and hence
+//              cos(x+y) = 1 - (x*x/2 - (r - x*y))
+//         For better accuracy when x &gt; 0.3, let qx = |x|/4 with
+//         the last 32 bits mask off, and if x &gt; 0.78125, let qx = 0.28125.
+//         Then
+//              cos(x+y) = (1-qx) - ((x*x/2-qx) - (r-x*y)).
+//         Note that 1-qx and (x*x/2-qx) is EXACT here, and the
+//         magnitude of the latter is at least a quarter of x*x/2,
+//         thus, reducing the rounding error in the subtraction.
+function kernel_cos(x, y)
+{
+    if (Math.abs(x) &lt; 7.450587702351184e-9) {
+        // We do not implement the part about signaling inexact when x is small.
+        return 1.0;
+    }
+&nbsp;
+    var C1  =  4.16666666666666019037e-02; //  0x3FA55555, 0x5555554C
+    var C2  = -1.38888888888741095749e-03; //  0xBF56C16C, 0x16C15177
+    var C3  =  2.48015872894767294178e-05; //  0x3EFA01A0, 0x19CB1590
+    var C4  = -2.75573143513906633035e-07; //  0xBE927E4F, 0x809C52AD
+    var C5  =  2.08757232129817482790e-09; //  0x3E21EE9E, 0xBDB4B1C4
+    var C6  = -1.13596475577881948265e-11; //  0xBDA8FAE9, 0xBE8838D4
+&nbsp;
+    var absx = Math.abs(x);
+    var z = x*x;
+    var r = z*(C1+z*(C2+z*(C3+z*(C4+z*(C5+z*C6)))));
+&nbsp;
+    // fdlibm had ix &lt; 0x3fd33333. This implies abs(x) &lt; 0.3000001907348632e0, where
+    // the constant is 0x3fd33333, 0xffffffff.
+    if (absx &lt; 0.3000001907348632e0) {
+        return 1 - (0.5*z - (z*r - x*y));
+    } else {
+        var qx;
+        // fdblim had ix &gt; 0x3fe90000.  This implies abs(x) &gt; 0.78125
+        // because 0x3fe90000 is 0.78125.
+        if (absx &gt; 0.78125) {
+            qx = 0.28125;
+        } else {
+            // qx = x/4, but the low 32 bits are of the product are slammed to zero.
+            qx = _ConstructDouble(_DoubleHi(0.25*x), 0);
+        }
+&nbsp;
+        var hz = 0.5*z - qx;
+        var a = 1 - qx;
+        return a - (hz - (z*r - x*y));
+    }
+}
+    
+// kernel tan function on [-pi/4, pi/4], pi/4 ~ 0.7854
+// Input x is assumed to be bounded by ~pi/4 in magnitude.
+// Input y is the tail of x.
+// Input k indicates whether ieee_tan (if k = 1) or -1/tan (if k = -1) is returned.
+//
+// Algorithm
+//      1. Since ieee_tan(-x) = -ieee_tan(x), we need only to consider positive x.
+//      2. if x &lt; 2^-28 (hx&lt;0x3e300000 0), return x with inexact if x!=0.
+//      3. ieee_tan(x) is approximated by a odd polynomial of degree 27 on
+//         [0,0.67434]
+//                               3             27
+//              tan(x) ~ x + T1*x + ... + T13*x
+//         where
+//
+//              |ieee_tan(x)         2     4            26   |     -59.2
+//              |----- - (1+T1*x +T2*x +.... +T13*x    )| &lt;= 2
+//              |  x                                    |
+//
+//         Note: ieee_tan(x+y) = ieee_tan(x) + tan'(x)*y
+//                        ~ ieee_tan(x) + (1+x*x)*y
+//         Therefore, for better accuracy in computing ieee_tan(x+y), let
+//                   3      2      2       2       2
+//              r = x *(T2+x *(T3+x *(...+x *(T12+x *T13))))
+//         then
+//                                  3    2
+//              tan(x+y) = x + (T1*x + (x *(r+y)+y))
+//
+//      4. For x in [0.67434,pi/4],  let y = pi/4 - x, then
+//              tan(x) = ieee_tan(pi/4-y) = (1-ieee_tan(y))/(1+ieee_tan(y))
+//                     = 1 - 2*(ieee_tan(y) - (ieee_tan(y)^2)/(1+ieee_tan(y)))
+&nbsp;
+// Set returnTan to 1 for tan; -1 for cot.  Anything else is illegal
+// and will cause incorrect results.
+function kernel_tan(x, y, returnTan)
+{
+    var z;
+    var w;
+    var hx = _DoubleHi(x);
+    var ix = hx &amp; 0x7fffffff;
+    
+    if (ix &lt; 0x3e300000) {
+        // x &lt; 2^-28
+        // We don't try to generate inexact.
+        if (((ix | _DoubleLo(x)) | (returnTan + 1)) == 0) {
+            return 1 / Math.abs(x);
+        } else {
+            if (returnTan == 1) {
+                return x;
+            } else {
+                // Compute -1/(x + y) carefully
+                var w = x + y;
+                var z = _ConstructDouble(_DoubleHi(w), 0);
+                var v = y - (z - x);
+                var a = -1 / w;
+                var t = _ConstructDouble(_DoubleHi(a), 0);
+                var s = 1 + t * z;
+                return t + a * (s + t * v);
+            }
+        }
+    }
+    if (ix &gt;= 0x3fe59428) {
+        // |x| &gt; .6744
+        if (x &lt; 0) {
+            x = -x;
+            y = -y;
+        }
+        var pio4 = 7.85398163397448278999e-01; // 3FE921FB, 54442D18
+        var pio4lo = 3.06161699786838301793e-17; // 3C81A626, 33145C07
+        z = pio4 - x;
+        w = pio4lo - y;
+        x = z + w;
+        y = 0;
+        /* istanbul ignore if */
+        <span class="skip-if-branch" title="if path not taken" >I</span>if (verbose &gt; 0)
+<span class="cstat-skip" title="statement not covered" >            console.log("|x| &gt; .6744; x = " + x);</span>
+    }
+    z = x * x;
+    w = z * z;
+&nbsp;
+    //
+    // Break x^5*(T[1]+x^2*T[2]+...) into
+    // x^5(T[1]+x^4*T[3]+...+x^20*T[11]) +
+    // x^5(x^2*(T[2]+x^4*T[4]+...+x^22*[T12]))
+    //
+    var T0  = 3.33333333333334091986e-01;       /* 3FD55555, 55555563 */
+    var T1  = 1.33333333333201242699e-01;       /* 3FC11111, 1110FE7A */
+    var T2  = 5.39682539762260521377e-02;       /* 3FABA1BA, 1BB341FE */
+    var T3  = 2.18694882948595424599e-02;       /* 3F9664F4, 8406D637 */
+    var T4  = 8.86323982359930005737e-03;       /* 3F8226E3, E96E8493 */
+    var T5  = 3.59207910759131235356e-03;       /* 3F6D6D22, C9560328 */
+    var T6  = 1.45620945432529025516e-03;       /* 3F57DBC8, FEE08315 */
+    var T7  = 5.88041240820264096874e-04;       /* 3F4344D8, F2F26501 */
+    var T8  = 2.46463134818469906812e-04;       /* 3F3026F7, 1A8D1068 */
+    var T9  = 7.81794442939557092300e-05;       /* 3F147E88, A03792A6 */
+    var T10 = 7.14072491382608190305e-05;       /* 3F12B80F, 32F0A7E9 */
+    var T11 =-1.85586374855275456654e-05;       /* BEF375CB, DB605373 */
+    var T12 = 2.59073051863633712884e-05;       /* 3EFB2A70, 74BF7AD4 */
+&nbsp;
+    var r = T1 + w * (T3 + w * (T5 + w * (T7 + w * (T9 + w * T11))));
+    var v = z * (T2 + w * (T4 + w * (T6 + w * (T8 + w * (T10 + w * T12)))));
+    var s = z * x;
+    r = y + z * (s * (r + v) + y);
+    r = r + T0 * s;
+    w = x + r;
+    if (ix &gt;= 0x3fe59428) {
+        /* istanbul ignore if */
+        <span class="skip-if-branch" title="if path not taken" >I</span>if (verbose &gt; 0) {
+<span class="cstat-skip" title="statement not covered" >            console.log("hx = " + hx);</span>
+<span class="cstat-skip" title="statement not covered" >            console.log("scale = " + (1 - ((hx &gt;&gt; 30) &amp; 2)));</span>
+        }
+        return (1 - ((hx &gt;&gt; 30) &amp; 2)) *
+            (returnTan - 2.0 * (x - (w * w / (w + returnTan) - r)));
+    }
+    if (returnTan == 1) {
+        return w;
+    } else {
+        // Compute -1/(x+r) accurately
+        z = _ConstructDouble(_DoubleHi(w), 0);
+        v = r - (z - x); // z+v = r+x
+        var a = -1 / w;
+        var t = _ConstructDouble(_DoubleHi(a), 0);
+        s = 1 + t*z;
+        return t + a*(s + t*v);
+    }
+}
+&nbsp;
+//
+// Table of constants for 2/pi, 396 Hex digits (476 decimal) of 2/pi 
+//
+var two_over_pi = new Int32Array(
+    [
+        0xA2F983, 0x6E4E44, 0x1529FC, 0x2757D1, 0xF534DD, 0xC0DB62, 
+        0x95993C, 0x439041, 0xFE5163, 0xABDEBB, 0xC561B7, 0x246E3A, 
+        0x424DD2, 0xE00649, 0x2EEA09, 0xD1921C, 0xFE1DEB, 0x1CB129, 
+        0xA73EE8, 0x8235F5, 0x2EBB44, 0x84E99C, 0x7026B4, 0x5F7E41, 
+        0x3991D6, 0x398353, 0x39F49C, 0x845F8B, 0xBDF928, 0x3B1FF8, 
+        0x97FFDE, 0x05980F, 0xEF2F11, 0x8B5A0A, 0x6D1F6D, 0x367ECF, 
+        0x27CB09, 0xB74F46, 0x3F669E, 0x5FEA2D, 0x7527BA, 0xC7EBE5, 
+        0xF17B3D, 0x0739F7, 0x8A5292, 0xEA6BFB, 0x5FB11F, 0x8D5D08, 
+        0x560330, 0x46FC7B, 0x6BABF0, 0xCFBC20, 0x9AF436, 0x1DA9E3, 
+        0x91615E, 0xE61B08, 0x659985, 0x5F14A0, 0x68408D, 0xFFD880, 
+        0x4D7327, 0x310606, 0x1556CA, 0x73A8C9, 0x60E27B, 0xC08C6B, 
+     ]);
+&nbsp;
+var invpio2 =  6.36619772367581382433e-01; // 0x3FE45F30, 0x6DC9C883
+var pio2_1  =  1.57079632673412561417e+00; // 0x3FF921FB, 0x54400000
+var pio2_1t =  6.07710050650619224932e-11; // 0x3DD0B461, 0x1A626331
+var pio2_2  =  6.07710050630396597660e-11; // 0x3DD0B461, 0x1A600000
+var pio2_2t =  2.02226624879595063154e-21; // 0x3BA3198A, 0x2E037073
+var pio2_3  =  2.02226624871116645580e-21; // 0x3BA3198A, 0x2E000000
+var pio2_3t =  8.47842766036889956997e-32; // 0x397B839A, 0x252049C1
+&nbsp;
+// Table of values of multiples of pi/2 from pi/2 to 50*pi/2. This is
+// used as a quick check to see if an argument is close to a multiple
+// of pi/2 and needs extra bits for reduction.  This array contains
+// the high word the multiple of pi/2.
+&nbsp;
+var npio2_hw = new Int32Array(
+    [0x3FF921FB, 0x400921FB, 0x4012D97C, 0x401921FB, 0x401F6A7A, 0x4022D97C,
+     0x4025FDBB, 0x402921FB, 0x402C463A, 0x402F6A7A, 0x4031475C, 0x4032D97C,
+     0x40346B9C, 0x4035FDBB, 0x40378FDB, 0x403921FB, 0x403AB41B, 0x403C463A,
+     0x403DD85A, 0x403F6A7A, 0x40407E4C, 0x4041475C, 0x4042106C, 0x4042D97C,
+     0x4043A28C, 0x40446B9C, 0x404534AC, 0x4045FDBB, 0x4046C6CB, 0x40478FDB,
+     0x404858EB, 0x404921FB
+     ]);
+&nbsp;
+// Table of values of multiples of pi/2 from pi/2 to 31*pi/2. This is
+// the low word corresponding to the values in npio2_hw. Thus
+// npio2_hw[k] and npio2_lw[k] form to make a double float value for
+// (k+1)*pi/2.
+var npio2_lw = new Int32Array(
+    [0x54442D18, 0x54442D18, 0x7F3321D2, 0x54442D18, 0x2955385E, 0x7F3321D2,
+     0xE9BBA775, 0x54442D18, 0xBECCB2BB, 0x2955385E, 0xC9EEDF00, 0x7F3321D2,
+     0x347764A4, 0xE9BBA775, 0x9EFFEA46, 0x54442D18, 0x09886FEA, 0xBECCB2BB,
+     0x7410F58C, 0x2955385E, 0xEF4CBD98, 0xC9EEDF00, 0xA4910069, 0x7F3321D2,
+     0x59D5433B, 0x347764A4, 0x0F19860C, 0xE9BBA775, 0xC45DC8DE, 0x9EFFEA46,
+     0x79A20BAF, 0x54442D18
+     ]);
+&nbsp;
+// rempi2_y0 and rempi2_y1 are the actual values for
+// ieee754_rem_pio2(x) when x is an exact (floating-point) multiple of
+// pi/2.
+var rempi2_y0 = new Float64Array(
+    [-6.123233995736766e-17, -1.2246467991473532e-16, -1.8369701987210297e-16,
+     -2.4492935982947064e-16, -3.061616997868383e-16, -3.6739403974420594e-16,
+     -4.286263797015736e-16, -4.898587196589413e-16, -5.51091059616309e-16,
+     -6.123233995736766e-16, -2.4499125789312946e-15, -7.347880794884119e-16,
+     9.803364199544708e-16, -8.572527594031472e-16, -2.6948419387607653e-15,
+     -9.797174393178826e-16, 7.354070601250002e-16, -1.102182119232618e-15,
+     -2.939771298590236e-15, -1.2246467991473533e-15, 4.904777002955296e-16,
+     -4.899825157862589e-15, -3.1847006584197066e-15, -1.4695761589768238e-15,
+     2.45548340466059e-16, 1.9606728399089416e-15, -3.4296300182491773e-15,
+     -1.7145055188062944e-15, 6.189806365883577e-19, -5.3896838775215305e-15,
+     -3.674559378078648e-15, -1.959434878635765e-15
+     ]);
+&nbsp;
+var rempi2_y1 = new Float64Array(
+    [1.4974857633995285e-33, 2.994769809718341e-33, -7.833796929500809e-33,
+     5.989539619436682e-33, 1.981287616837413e-32, -1.5667593859001618e-32,
+     -1.8442573100641268e-33, 1.1979079238873364e-32, 2.5802415787810855e-32,
+     3.962575233674826e-32, -1.437661374195672e-31, -3.1335187718003235e-32,
+     8.109576198356073e-32, -3.6885146201282536e-33, -8.847279122381724e-32,
+     2.3958158477746728e-32, 3.778149502668422e-32, 5.160483157562171e-32,
+     -3.317944502806745e-32, 7.925150467349652e-32, -5.532771930192468e-33,
+     -2.875322748391344e-31, 2.2113901167682514e-32, -6.267037543600647e-32,
+     4.567676892442579e-34, 1.6219152396712146e-31, 7.740724736343248e-32,
+     -7.377029240256507e-33, -5.5580050162563314e-36, -1.7694558244763448e-31,
+     -2.6172985905132346e-31, 4.7916316955493457e-32]);
+&nbsp;
+// Compute k and r such that x - k*pi/2 = r where |r| &lt; pi/4. For
+// precision, r is returned as two values y0 and y1 such that r = y0
+// + y1 to more than double precision.
+function ieee754_rem_pio2(x)
+{
+    var z, w, t, r, fn;
+    var e0, i, j, nx, n;
+    var y0, y1;
+    
+    var hx = _DoubleHi(x);
+    var ix = hx &amp; 0x7fffffff;
+&nbsp;
+    if (ix &lt;= 0x3fe921fb) {
+        // |x| &lt; ~&lt;= pi/4, no need for reduction
+        return [0, x, 0];
+    }
+&nbsp;
+//    if (ix &lt; 0x4002d97c) {
+    // ix &lt; 0x4002d97c is the same as |x| &lt;= _ConstructDouble(0x4002d97b, 0xffffffff)
+    if (Math.abs(x) &lt;= _ConstructDouble(0x4002d97b, 0xffffffff)) {
+        // |x| ~&lt; 3*pi/4, special case with n = +/- 1
+        if (hx &gt; 0) {
+            z = x - pio2_1;
+            if (ix != 0x3ff921fb) {
+                // 33+53 bit pi is good enough
+                y0 = z - pio2_1t;
+                y1 = (z - y0) - pio2_1t;
+            } else {
+                // near pi/2, use 33+33+53 bit pi
+                z -= pio2_2;
+                y0 = z - pio2_2t;
+                y1 = (z - y0) - pio2_2t;
+            }
+            return [1, y0, y1];
+        } else {
+            // Negative x
+            z = x + pio2_1;
+            if (ix != 0x3ff921fb) {
+                // 33+53 bit pi is good enough
+                y0 = z + pio2_1t;
+                y1 = (z - y0) + pio2_1t;
+            } else {
+                // near pi/2, use 33+33+53 bit pi
+                z += pio2_2;
+                y0 = z + pio2_2t;
+                y1 = (z - y0) + pio2_2t;
+            }
+            return [-1, y0, y1];
+        }
+    }
+&nbsp;
+//    if (ix &lt;= 0x413921fb) {
+    // ix &lt;= 0x413921fb is the same as |x| &lt;= _ConstructDouble(0x413921fb, 0xffffffff)
+    if (Math.abs(x) &lt;= _ConstructDouble(0x413921fb, 0xffffffff)) {
+        // |x| ~&lt;= 2^19*(pi/2), medium size
+        t = Math.abs(x);
+        n = Math.floor(t * invpio2 + 0.5);
+        fn = n;
+        r = t - fn*pio2_1;
+        w = fn*pio2_1t;
+        // First round good to 85 bit
+        if (n &lt; 32 &amp;&amp; ix != npio2_hw[n-1]) {
+            // Quick check for cancellation
+            y0 = r - w;
+        } else if (n &lt; 32 &amp;&amp; _DoubleLo(x) == npio2_lw[n-1]) {
+            // Exactly equal to a (machine) multiple of pi/2, so
+            // lookup result instead of doing the third iteration that
+            // would otherwise be needed.
+            /* istanbul ignore if */
+            <span class="skip-if-branch" title="if path not taken" >I</span>if (verbose &gt; 0)
+<span class="cstat-skip" title="statement not covered" >                console.log("Exactly equal to pi/2*" + n);</span>
+            if (hx &lt; 0) {
+                return [-n, -rempi2_y0[n-1], -rempi2_y1[n-1]];
+            } else {
+                return [n, rempi2_y0[n-1], rempi2_y1[n-1]];
+            }
+        } else {
+            j = ix &gt;&gt; 20;
+            y0 = r - w;
+            i = j - (_DoubleHi(y0)&gt;&gt;20) &amp; 0x7ff;
+            /* istanbul ignore if */
+            <span class="skip-if-branch" title="if path not taken" >I</span>if (verbose &gt; 0)
+<span class="cstat-skip" title="statement not covered" >                console.log("x = " + x + "; j = " + j + "; i = " + i);</span>
+            if (i &gt; 16) {
+                // 2nd iteration needed, good to 118
+                t = r;
+                w = fn * pio2_2;
+                r = t - w;
+                w = fn * pio2_2t - ((t - r) - w);
+                y0 = r - w;
+                i = j - (_DoubleHi(y0) &gt;&gt; 20) &amp; 0x7ff;
+                /* istanbul ignore if */
+                <span class="skip-if-branch" title="if path not taken" >I</span>if (verbose &gt; 0)
+<span class="cstat-skip" title="statement not covered" >                    console.log("2nd iteration; i = " + i + "; y0 = " + y0);</span>
+                if (i &gt; 49) {
+                    /* istanbul ignore if */
+                    <span class="skip-if-branch" title="if path not taken" >I</span>if (verbose &gt; 0)
+<span class="cstat-skip" title="statement not covered" >                        console.log("3rd iteration needed");</span>
+                    // 3rd iteration needed. 151 bits accuracy
+                    t = r;
+                    w = fn * pio2_3;
+                    r = t - w;
+                    w = fn * pio2_3t - ((t - r) - w);
+                    y0 = r - w;
+                }
+            }
+        }
+        y1 = (r - y0) - w;
+        if (hx &lt; 0) {
+            return [-n, -y0, -y1];
+        } else {
+            return [n, y0, y1];
+        }
+    }
+&nbsp;
+    // All other large arguments
+    if (ix &gt;= 0x7ff00000) {
+        // x is inf or NaN.  Return NaN.
+        return [0, x - x, x - x];
+    }
+&nbsp;
+    // Need to do full Payne-Hanek reduction here!
+&nbsp;
+    // set z = scalbn(|x|, ilogb(x)-23)
+    e0 = (ix &gt;&gt; 20) - 1046;
+    z = _ConstructDouble(ix - (e0 &lt;&lt; 20), _DoubleLo(x));
+&nbsp;
+    /* istanbul ignore if */
+    <span class="skip-if-branch" title="if path not taken" >I</span>if (verbose &gt; 0) {
+<span class="cstat-skip" title="statement not covered" >        console.log("x = " + x);</span>
+<span class="cstat-skip" title="statement not covered" >        console.log("z = " + z);</span>
+    }
+    var tx = new Float64Array(3);
+    for (i = 0; i &lt; 2; i++) {
+        tx[i] = Math.floor(z);
+        z = (z - tx[i]) * 1.6777216e+07;
+    }
+    tx[2] = z;
+    nx = 3;
+    /* istanbul ignore if */
+    <span class="skip-if-branch" title="if path not taken" >I</span>if (verbose &gt; 0) {
+<span class="cstat-skip" title="statement not covered" >        console.log("tx[0] = " + tx[0]);</span>
+<span class="cstat-skip" title="statement not covered" >        console.log("tx[1] = " + tx[1]);</span>
+<span class="cstat-skip" title="statement not covered" >        console.log("tx[2] = " + tx[2]);</span>
+    }
+    while (tx[nx - 1] == 0)
+        --nx;
+    /* istanbul ignore if */
+    <span class="skip-if-branch" title="if path not taken" >I</span>if (verbose &gt; 0)
+<span class="cstat-skip" title="statement not covered" >        console.log("Final nx = " + nx);</span>
+&nbsp;
+    // Call Payne-Hanek reduction
+    var y = Array(3);
+    n = kernel_rem_pio2(tx, y, e0, nx, 2, two_over_pi);
+    /* istanbul ignore if */
+    <span class="skip-if-branch" title="if path not taken" >I</span>if (verbose &gt; 0)
+<span class="cstat-skip" title="statement not covered" >        console.log("rem: n = " + n + ", y = " + y);</span>
+    if (hx &lt; 0) {
+        return [-n, -y[0], -y[1]];
+    } else {
+       return [n, y[0], y[1]];
+    }
+}
+&nbsp;
+function sin (x)
+{
+    var ix = _DoubleHi(x) &amp; 0x7fffffff;
+&nbsp;
+    if (ix &lt;= 0x3fe921fb) {
+        // |x| &lt; pi/4, approximately.  No reduction needed.
+        return kernel_sin(x, 0, 0);
+    }
+&nbsp;
+    if (ix &gt;= 0x7ff00000) {
+        // sin(Inf or NaN) is NaN
+        return x - x;
+    }
+&nbsp;
+    // Argument reduction needed
+    var y = ieee754_rem_pio2(x);
+    var n = y[0] &amp; 3;
+    switch (n) {
+      case 0:
+          return kernel_sin(y[1], y[2], 1);
+      case 1:
+          return kernel_cos(y[1], y[2]);
+      case 2:
+          return -kernel_sin(y[1], y[2], 1);
+      case 3:
+          return -kernel_cos(y[1], y[2]);
+    }
+}
+&nbsp;
+function cos (x)
+{
+    var ix = _DoubleHi(x) &amp; 0x7fffffff;
+&nbsp;
+    if (ix &lt;= 0x3fe921fb) {
+        // |x| &lt; pi/4, approximately.  No reduction needed.
+        return kernel_cos(x, 0);
+    }
+&nbsp;
+    if (ix &gt;= 0x7ff00000) {
+        // cos(Inf or NaN) is NaN
+        return x - x;
+    }
+&nbsp;
+    // Argument reduction needed
+    var y = ieee754_rem_pio2(x);
+    var n = y[0] &amp; 3;
+    switch (n) {
+      case 0:
+          return kernel_cos(y[1], y[2]);
+      case 1:
+          return -kernel_sin(y[1], y[2], 1);
+      case 2:
+          return -kernel_cos(y[1], y[2]);
+      case 3:
+          return kernel_sin(y[1], y[2], 1);
+    }
+}
+&nbsp;
+&nbsp;
+function tan (x)
+{
+    var ix = _DoubleHi(x) &amp; 0x7fffffff;
+&nbsp;
+    if (ix &lt;= 0x3fe921fb) {
+        // |x| &lt; pi/4, approximately.  No reduction needed.
+        return kernel_tan(x, 0, 1);
+    }
+&nbsp;
+    if (ix &gt;= 0x7ff00000) {
+        // tan(Inf or NaN) is NaN
+        return x - x;
+    }
+&nbsp;
+    // Argument reduction needed
+    var y = ieee754_rem_pio2(x);
+&nbsp;
+    // flag is 1 if n is even and -1 if n is odd
+    var flag;
+&nbsp;
+    if ((y[0] &amp; 1) == 0)
+        flag = 1;
+    else
+        flag = -1;
+&nbsp;
+    return kernel_tan(y[1], y[2], flag)
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Feb 27 2015 16:07:02 GMT-0800 (PST)</div>
+</div>
+
+<script src="../prettify.js"></script>
+
+<script src="http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js"></script>
+<script>
+
+    YUI().use('datatable', function (Y) {
+
+        var formatters = {
+          pct: function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              try {
+                  return o.value.toFixed(2) + '%';
+              } catch (ex) { return o.value + '%'; }
+          },
+          html: function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              return o.record.get(o.column.key + '_html');
+          }
+        },
+          defaultFormatter = function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              return o.value;
+          };
+
+        function getColumns(theadNode) {
+            var colNodes = theadNode.all('tr th'),
+                cols = [],
+                col;
+            colNodes.each(function (colNode) {
+                col = {
+                    key: colNode.getAttribute('data-col'),
+                    label: colNode.get('innerHTML') || ' ',
+                    sortable: !colNode.getAttribute('data-nosort'),
+                    className: colNode.getAttribute('class'),
+                    type: colNode.getAttribute('data-type'),
+                    allowHTML: colNode.getAttribute('data-html') === 'true' || colNode.getAttribute('data-fmt') === 'html'
+                };
+                col.formatter = formatters[colNode.getAttribute('data-fmt')] || defaultFormatter;
+                cols.push(col);
+            });
+            return cols;
+        }
+
+        function getRowData(trNode, cols) {
+            var tdNodes = trNode.all('td'),
+                    i,
+                    row = { classes: {} },
+                    node,
+                    name;
+            for (i = 0; i < cols.length; i += 1) {
+                name = cols[i].key;
+                node = tdNodes.item(i);
+                row[name] = node.getAttribute('data-value') || node.get('innerHTML');
+                row[name + '_html'] = node.get('innerHTML');
+                row.classes[name] = node.getAttribute('class');
+                //Y.log('Name: ' + name + '; Value: ' + row[name]);
+                if (cols[i].type === 'number') { row[name] = row[name] * 1; }
+            }
+            //Y.log(row);
+            return row;
+        }
+
+        function getData(tbodyNode, cols) {
+            var data = [];
+            tbodyNode.all('tr').each(function (trNode) {
+                data.push(getRowData(trNode, cols));
+            });
+            return data;
+        }
+
+        function replaceTable(node) {
+            if (!node) { return; }
+            var cols = getColumns(node.one('thead')),
+                data = getData(node.one('tbody'), cols),
+                table,
+                parent = node.get('parentNode');
+
+            table = new Y.DataTable({
+                columns: cols,
+                data: data,
+                sortBy: 'file'
+            });
+            parent.set('innerHTML', '');
+            table.render(parent);
+        }
+
+        Y.on('domready', function () {
+            replaceTable(Y.one('div.coverage-summary table'));
+            if (typeof prettyPrint === 'function') {
+                prettyPrint();
+            }
+        });
+    });
+</script>
+</body>
+</html>
