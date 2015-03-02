@@ -199,16 +199,16 @@
     <h1>Code coverage report for <span class="entity">fdlibm/payne-hanek.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">85.09% <small>(137 / 161)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">98.56% <small>(137 / 139)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">87.1% <small>(54 / 62)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">98.18% <small>(54 / 55)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
         Functions: <span class="metric">100% <small>(1 / 1)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">85.63% <small>(137 / 160)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">98.56% <small>(137 / 139)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric">13 statements, 8 branches</span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -598,7 +598,13 @@
 380
 381
 382
-383</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+383
+384
+385
+386
+387
+388
+389</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -936,11 +942,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8</span>
@@ -954,25 +962,29 @@
 <span class="cline-any cline-yes">8</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1317,13 +1329,15 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
 <span class="cstat-skip" title="statement not covered" >        console.log("PIo2 comp " + fq);</span>
     /* compress fq[] into y[] */
     switch (prec) {
-<span class="branch-0 cbranch-no" title="branch not covered" >      case 0:</span>
-<span class="cstat-no" title="statement not covered" >          fw = 0.0;</span>
-<span class="cstat-no" title="statement not covered" >          for (i = jz; i &gt;= 0; i--)</span>
-<span class="cstat-no" title="statement not covered" >              fw += fq[i];</span>
-<span class="cstat-no" title="statement not covered" >          y[0] = (ih == 0) ? fw : -fw;</span>
-<span class="cstat-no" title="statement not covered" >          break;</span>
-<span class="branch-1 cbranch-no" title="branch not covered" >      case 1:</span>
+/*
+      case 0:
+          fw = 0.0;
+          for (i = jz; i &gt;= 0; i--)
+              fw += fq[i];
+          y[0] = (ih == 0) ? fw : -fw;
+          break;
+      case 1:
+*/
       case 2:
           fw = 0.0;
           for (i = jz; i &gt;= 0; i--)
@@ -1334,29 +1348,33 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
               fw += fq[i];
           y[1] = (ih == 0) ? fw : -fw;
           break;
-<span class="branch-3 cbranch-no" title="branch not covered" >      case 3:</span>
+/*
+      case 3:
+*/
           /* painful */
-<span class="cstat-no" title="statement not covered" >          for (i = jz; i &gt; 0; i--) {</span>
-<span class="cstat-no" title="statement not covered" >              fw = fq[i - 1] + fq[i];</span>
-<span class="cstat-no" title="statement not covered" >              fq[i] += fq[i - 1] - fw;</span>
-<span class="cstat-no" title="statement not covered" >              fq[i - 1] = fw;</span>
+/*
+          for (i = jz; i &gt; 0; i--) {
+              fw = fq[i - 1] + fq[i];
+              fq[i] += fq[i - 1] - fw;
+              fq[i - 1] = fw;
           }
-<span class="cstat-no" title="statement not covered" >          for (i = jz; i &gt; 1; i--) {</span>
-<span class="cstat-no" title="statement not covered" >              fw = fq[i - 1] + fq[i];</span>
-<span class="cstat-no" title="statement not covered" >              fq[i] += fq[i - 1] - fw;</span>
-<span class="cstat-no" title="statement not covered" >              fq[i - 1] = fw;</span>
+          for (i = jz; i &gt; 1; i--) {
+              fw = fq[i - 1] + fq[i];
+              fq[i] += fq[i - 1] - fw;
+              fq[i - 1] = fw;
           }
-<span class="cstat-no" title="statement not covered" >          for (fw = 0.0, i = jz; i &gt;= 2; i--) <span class="cstat-no" title="statement not covered" >fw += fq[i];</span></span>
-<span class="cstat-no" title="statement not covered" >          if (ih == 0) {</span>
-<span class="cstat-no" title="statement not covered" >              y[0] = fq[0];</span>
-<span class="cstat-no" title="statement not covered" >              y[1] = fq[1];</span>
-<span class="cstat-no" title="statement not covered" >              y[2] = fw;</span>
+          for (fw = 0.0, i = jz; i &gt;= 2; i--) fw += fq[i];
+          if (ih == 0) {
+              y[0] = fq[0];
+              y[1] = fq[1];
+              y[2] = fw;
           } else {
-<span class="cstat-no" title="statement not covered" >              y[0] = -fq[0];</span>
-<span class="cstat-no" title="statement not covered" >              y[1] = -fq[1];</span>
-<span class="cstat-no" title="statement not covered" >              y[2] = -fw;</span>
+              y[0] = -fq[0];
+              y[1] = -fq[1];
+              y[2] = -fw;
           }
-    }
+*/
+  }
     /* istanbul ignore if */
     <span class="skip-if-branch" title="if path not taken" >I</span>if (verbose &gt; 0)
 <span class="cstat-skip" title="statement not covered" >        console.log ("Return n = " + n + ", y = " + y);</span>
@@ -1367,7 +1385,7 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Feb 27 2015 16:07:02 GMT-0800 (PST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 02 2015 09:13:39 GMT-0800 (PST)</div>
 </div>
 
 <script src="../prettify.js"></script>

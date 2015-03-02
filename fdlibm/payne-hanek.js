@@ -335,6 +335,7 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
         console.log("PIo2 comp " + fq);
     /* compress fq[] into y[] */
     switch (prec) {
+/*
       case 0:
           fw = 0.0;
           for (i = jz; i >= 0; i--)
@@ -342,6 +343,7 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
           y[0] = (ih == 0) ? fw : -fw;
           break;
       case 1:
+*/
       case 2:
           fw = 0.0;
           for (i = jz; i >= 0; i--)
@@ -352,8 +354,11 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
               fw += fq[i];
           y[1] = (ih == 0) ? fw : -fw;
           break;
+/*
       case 3:
+*/
           /* painful */
+/*
           for (i = jz; i > 0; i--) {
               fw = fq[i - 1] + fq[i];
               fq[i] += fq[i - 1] - fw;
@@ -374,7 +379,8 @@ function kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
               y[1] = -fq[1];
               y[2] = -fw;
           }
-    }
+*/
+  }
     /* istanbul ignore if */
     if (verbose > 0)
         console.log ("Return n = " + n + ", y = " + y);
