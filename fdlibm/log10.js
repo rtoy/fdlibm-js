@@ -75,16 +75,18 @@ function log10(x) {
 
     //console.log("hx = " + hx);
     k += (hx >> 20) - 1023;
-    i = (k & 0x80000000) >> 31;
+    i = (k & 0x80000000) >>> 31;
     hx = (hx & 0x000fffff) | ((0x3ff - i) << 20);
     //console.log("k = " + k);
     //console.log("i = " + i);
     //console.log("hx = " + hx);
     y = k + i;
-    x = _ConstructDouble(hx, lx);
+    x = _ConstructDouble(hx, _DoubleLo(x));
     //console.log("y = " + y);
-    //console.log("new x = " + x);
+    //console.log("new x = " + x + ", hi, lo = " + _DoubleHi(x) + " " + _DoubleLo(x));
 
-    z = y * log10_2lo + ivln10 * Math.log(x);
+    z = y * log10_2lo + ivln10 * log(x);
+    //console.log("z = " + z);
+    
     return z + y * log10_2hi;
 }
