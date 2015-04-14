@@ -85,7 +85,7 @@ function log10(x) {
     //console.log("y = " + y);
     //console.log("new x = " + x + ", hi, lo = " + _DoubleHi(x) + " " + _DoubleLo(x));
 
-    z = y * log10_2lo + ivln10 * log(x);
+    z = y * log10_2lo + ivln10 * Math.log(x);
     //console.log("z = " + z);
     
     return z + y * log10_2hi;
