@@ -52,5 +52,18 @@ describe(
                 var y = Math.log10(x);
                 expect(y).toBe(-307.77759430519706)
             });
-        
+        it("log10(1-Number.EPSILON) = -9.643274665532873e-17", function () {
+            // Note that Number.EPSILON is not the smallest eps such
+            // that 1+eps != 1.  It is the the difference between the
+            // smallest float greater than 1 and 1, so Number.EPSILON
+            // is about 2*eps.
+            var x = 1 - Number.EPSILON;
+            var y = Math.log10(x);
+            // Note: The expected answer assumes that log10 is using
+            // Math.log. If log (from fdlibm-js) is used, the answer
+            // is off by one bit.  But based on a comparison with
+            // Maxima, that would be the correctly rounded result.
+            // The value here is not the correctly rounded value.
+            expect(y).toBe(-9.643274665532873e-17);
+          });
     });
