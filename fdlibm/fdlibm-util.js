@@ -31,6 +31,18 @@ function _ConstructDouble(high, low)
     return new Float64Array(buf)[0];
 }
 
+var ilogb = function (x) {
+    var e = Math.floor(Math.log(x) * Math.LOG2E + 0.5);
+    if (Math.pow(2, e) > x) {
+        e -= 1;
+    }
+    return e;
+};
+
+var scalbn = function (x, n) {
+    return n > 1023 ? x * Math.pow(2, 1023) * Math.pow(2, n - 1023) : x * Math.pow(2, n);
+};
+
 // Relative error
 function relerr(actual, expected)
 {
