@@ -47,46 +47,18 @@ var log10_2hi  =  3.01029995663611771306e-01; /* 0x3FD34413, 0x509F6000 */
 var log10_2lo  =  3.69423907715893078616e-13; /* 0x3D59FEF3, 0x11F12B36 */
 
 function log10(x) {
-    var hx = _DoubleHi(x);
-    var lx = _DoubleLo(x);
-    var k = 0;
-
-    if (hx < 0x00100000) {
-        // x < 2^-1022
-        // log10(+/- 0) = -Infinity
-        if (((hx&0x7fffffff)|lx) == 0)
-            return -Infinity;
-        // log10 of negative number is NaN
-        if (hx<0)
-            return NaN;
-        // subnormal number. scale up x
-        k -= 54;
-        x *= Math.pow(2, 54);
-        hx = _DoubleHi(x);
-        lx = _DoubleLo(x);
-        //console.log("subnormal: k = " + k + ", x = " + x + ", hx = " + hx);
-        //console.log("lx = " + _DoubleLo(x));
-        //console.log("x = " + x);
+    if (x !== x || x < 0) {
+        return 0 / 0;
     }
-
-    // Infinity or NaN
-    if (hx >= 0x7ff00000)
-        return x;
-
-    //console.log("hx = " + hx);
-    k += (hx >> 20) - 1023;
-    i = (k & 0x80000000) >>> 31;
-    hx = (hx & 0x000fffff) | ((0x3ff - i) << 20);
-    //console.log("k = " + k);
-    //console.log("i = " + i);
-    //console.log("hx = " + hx);
-    y = k + i;
-    x = _ConstructDouble(hx, _DoubleLo(x));
-    //console.log("y = " + y);
-    //console.log("new x = " + x + ", hi, lo = " + _DoubleHi(x) + " " + _DoubleLo(x));
-
-    z = y * log10_2lo + ivln10 * Math.log(x);
-    //console.log("z = " + z);
-    
-    return z + y * log10_2hi;
+    if (x === 0) {
+        return -1 / 0;
+    }
+    if (x === 1 / 0) {
+        return 1 / 0;
+    }
+    var e = ilogb(x);
+    if (e < 0) {
+        e += 1;
+    }
+    return e * log10_2lo + ivln10 * Math.log(scalbn(x, -e)) + e * log10_2hi;
 }
